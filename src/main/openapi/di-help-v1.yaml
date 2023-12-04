@@ -1,0 +1,48 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-help helps import from file during the start of the application
+  version: 1.0.0
+servers:
+  - url: "http://localhost"
+paths:
+  /import/help:
+    post:
+      operationId: importHelp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataImport'
+      responses:
+        200:
+          description: ok
+components:
+  schemas:
+    DataImport:
+      type: object
+      properties:
+        helps:
+          $ref: '#/components/schemas/DataImportHelps'
+    DataImportHelps:
+      type: object
+      nullable: false
+      additionalProperties:
+        $ref: '#/components/schemas/DataImportHelp'
+    DataImportHelp:
+      type: object
+      required:
+        - tenantId
+      properties:
+        tenantId:
+          type: string
+        itemId:
+          type: string
+        context:
+          type: string
+        baseUrl:
+          type: string
+        resourceUrl:
+          type: string
+        appId:
+          type: string

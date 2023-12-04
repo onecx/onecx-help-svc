@@ -1,0 +1,12 @@
+{
+  "helps": {
+    "Help1": {
+      "tenantId": "default",
+      "itemId": "Help1"
+    },
+    "Help2": {
+      "tenantId": "default",
+      "itemId": "Help2"
+    }
+  }
+}

@@ -1,2 +1,2 @@
 # onecx-help-svc
-OneCx help Service
+OneCx Help Service
