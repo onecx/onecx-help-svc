@@ -30,7 +30,7 @@
                 </column>
             </createTable>
 
-            <addUniqueConstraint columnNames="item_id, tenant_id" constraintName="help_item_id" tableName="help"/>
+            <addUniqueConstraint columnNames="item_id, app_id, tenant_id" constraintName="help_item_id" tableName="help"/>
         </changeSet>
     </databaseChangeLog>
 
