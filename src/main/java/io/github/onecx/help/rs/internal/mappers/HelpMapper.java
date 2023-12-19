@@ -74,4 +74,10 @@ public abstract class HelpMapper {
         }
     }
 
+    public HelpAppIdsDTO map(List<String> appIds) {
+        HelpAppIdsDTO appIdsDTO = new HelpAppIdsDTO();
+        appIdsDTO.setAppIds(appIds);
+        return appIdsDTO;
+    }
+
 }

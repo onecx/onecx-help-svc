@@ -336,9 +336,9 @@ class HelpsRestControllerTest extends AbstractTest {
                 .get("/appIds")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .extract().as(String[].class);
+                .extract().as(HelpAppIdsDTO.class);
         Assertions.assertNotNull(output);
-        Assertions.assertEquals(output.length, 1);
-        Assertions.assertEquals(output[0], "appId");
+        Assertions.assertEquals(output.getAppIds().size(), 1);
+        Assertions.assertEquals(output.getAppIds().get(0), "appId");
     }
 }

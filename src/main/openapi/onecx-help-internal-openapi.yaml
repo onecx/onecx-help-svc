@@ -80,9 +80,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                $ref: '#/components/schemas/HelpAppIds'
   /internal/helps/{id}:
     get:
       tags:
@@ -350,3 +348,10 @@ components:
           type: string
         appId:
           type: string
+    HelpAppIds:
+      type: object
+      properties:
+        appIds:
+          type: array
+          items:
+            type: string
