@@ -327,4 +327,18 @@ class HelpsRestControllerTest extends AbstractTest {
         Assertions.assertNotNull(exception.getInvalidParams());
         Assertions.assertEquals(1, exception.getInvalidParams().size());
     }
+
+    @Test
+    void getAllAppsWithHelpItemsTest() {
+        var output = given()
+                .contentType(APPLICATION_JSON)
+                .when()
+                .get("/appIds")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .extract().as(String[].class);
+        Assertions.assertNotNull(output);
+        Assertions.assertEquals(output.length, 1);
+        Assertions.assertEquals(output[0], "appId");
+    }
 }

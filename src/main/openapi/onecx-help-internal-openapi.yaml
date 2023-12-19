@@ -68,6 +68,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /internal/helps/appIds:
+    get:
+      tags:
+        - helpsInternal
+      summary: Get all application IDs to which help items are assigned
+      operationId: getAllAppsWithHelpItems
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /internal/helps/{id}:
     get:
       tags:

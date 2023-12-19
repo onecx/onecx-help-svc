@@ -1,7 +1,13 @@
 package io.github.onecx.help.domain.daos;
 
+import java.util.List;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import org.tkit.quarkus.jpa.daos.AbstractDAO;
@@ -78,11 +84,26 @@ public class HelpDAO extends AbstractDAO<Help> {
         }
     }
 
+    public List<String> findApplicationsWithHelpItems() {
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+            Root<Help> root = cq.from(Help.class);
+            cq.multiselect(root.get(Help_.APP_ID));
+            cq.distinct(true);
+            List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
+            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS, ex);
+        }
+    }
+
     public enum ErrorKeys {
 
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_FIND_HELPS_BY_CRITERIA,
         ERROR_FIND_ALL_HELP_PAGE,
         ERROR_FIND_HELP_BY_ITEM_ID,
+        ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS
     }
 }
