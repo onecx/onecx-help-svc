@@ -1,7 +1,11 @@
 package io.github.onecx.help.domain.daos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 
 import org.tkit.quarkus.jpa.daos.AbstractDAO;
@@ -49,6 +53,32 @@ public class HelpDAO extends AbstractDAO<Help> {
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
         }
+    }
+
+    public Help findByAppIdAndItemId(HelpSearchCriteria criteria) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            var root = cq.from(Help.class);
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (criteria.getItemId() != null && !criteria.getItemId().isBlank()) {
+                predicates.add(cb.like(root.get(Help_.itemId), criteria.getItemId()));
+            }
+            if (criteria.getAppId() != null && !criteria.getAppId().isBlank()) {
+                predicates.add(cb.like(root.get(Help_.appId), criteria.getAppId()));
+            }
+            if (!predicates.isEmpty()) {
+                cq.where(cb.and(predicates.toArray(new Predicate[0])));
+            }
+            return this.getEntityManager().createQuery(cq).getSingleResult();
+
+        } catch (NoResultException nre) {
+            return null;
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
+        }
+
     }
 
     public PageResult<Help> findAll(Integer pageNumber, Integer pageSize) {
