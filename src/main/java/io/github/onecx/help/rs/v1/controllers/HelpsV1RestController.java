@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.Response;
 
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
-import org.tkit.quarkus.jpa.exceptions.ConstraintException;
 import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.io.github.onecx.help.rs.v1.HelpsV1Api;
@@ -41,11 +40,6 @@ public class HelpsV1RestController implements HelpsV1Api {
     public Response searchHelpItem(HelpSearchCriteriaDTOV1 helpSearchCriteriaDTOV1) {
         var help = dao.findByAppIdAndItemId(mapper.map(helpSearchCriteriaDTOV1));
         return Response.ok(helpMapper.map(help)).build();
-    }
-
-    @ServerExceptionMapper
-    public RestResponse<ProblemDetailResponseDTOV1> exception(ConstraintException ex) {
-        return exceptionMapper.exception(ex);
     }
 
     @ServerExceptionMapper
