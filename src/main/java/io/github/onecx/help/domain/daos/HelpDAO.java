@@ -5,7 +5,11 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import org.tkit.quarkus.jpa.daos.AbstractDAO;
@@ -13,7 +17,6 @@ import org.tkit.quarkus.jpa.daos.Page;
 import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.DAOException;
 import org.tkit.quarkus.jpa.models.TraceableEntity_;
-import org.tkit.quarkus.jpa.utils.QueryCriteriaUtil;
 
 import io.github.onecx.help.domain.criteria.HelpSearchCriteria;
 import io.github.onecx.help.domain.models.Help;
@@ -46,7 +49,7 @@ public class HelpDAO extends AbstractDAO<Help> {
             var root = cq.from(Help.class);
 
             if (criteria.getItemId() != null && !criteria.getItemId().isBlank()) {
-                cq.where(cb.like(root.get(Help_.itemId), QueryCriteriaUtil.wildcard(criteria.getItemId())));
+                cq.where(cb.like(root.get(Help_.itemId), criteria.getItemId()));
             }
             if (criteria.getAppId() != null && !criteria.getAppId().isBlank()) {
                 cq.where(cb.like(root.get(Help_.appId), criteria.getAppId()));
@@ -60,7 +63,6 @@ public class HelpDAO extends AbstractDAO<Help> {
             if (criteria.getResourceUrl() != null && !criteria.getResourceUrl().isBlank()) {
                 cq.where(cb.like(root.get(Help_.resourceUrl), criteria.getResourceUrl()));
             }
-
             return createPageQuery(cq, Page.of(criteria.getPageNumber(), criteria.getPageSize())).getPageResult();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
@@ -118,11 +120,26 @@ public class HelpDAO extends AbstractDAO<Help> {
         }
     }
 
+    public List<String> findApplicationsWithHelpItems() {
+        try {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Tuple> cq = cb.createTupleQuery();
+            Root<Help> root = cq.from(Help.class);
+            cq.multiselect(root.get(Help_.APP_ID));
+            cq.distinct(true);
+            List<Tuple> tupleResult = getEntityManager().createQuery(cq).getResultList();
+            return tupleResult.stream().map(t -> (String) t.get(0)).toList();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS, ex);
+        }
+    }
+
     public enum ErrorKeys {
 
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_FIND_HELPS_BY_CRITERIA,
         ERROR_FIND_ALL_HELP_PAGE,
         ERROR_FIND_HELP_BY_ITEM_ID,
+        ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS
     }
 }
