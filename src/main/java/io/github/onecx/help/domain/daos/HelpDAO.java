@@ -1,5 +1,6 @@
 package io.github.onecx.help.domain.daos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -7,6 +8,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
@@ -19,10 +21,8 @@ import org.tkit.quarkus.jpa.models.TraceableEntity_;
 import io.github.onecx.help.domain.criteria.HelpSearchCriteria;
 import io.github.onecx.help.domain.models.Help;
 import io.github.onecx.help.domain.models.Help_;
-import lombok.extern.slf4j.Slf4j;
 
 @ApplicationScoped
-@Slf4j
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 public class HelpDAO extends AbstractDAO<Help> {
 
@@ -67,6 +67,30 @@ public class HelpDAO extends AbstractDAO<Help> {
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
         }
+    }
+
+    public Help findByAppIdAndItemId(HelpSearchCriteria criteria) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            var root = cq.from(Help.class);
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (!criteria.getItemId().isBlank()) {
+                predicates.add(cb.like(root.get(Help_.itemId), criteria.getItemId()));
+            }
+            if (!criteria.getAppId().isBlank()) {
+                predicates.add(cb.like(root.get(Help_.appId), criteria.getAppId()));
+            }
+            if (!predicates.isEmpty()) {
+                cq.where(cb.and(predicates.toArray(new Predicate[0])));
+            }
+            return this.getEntityManager().createQuery(cq).getSingleResult();
+
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
+        }
+
     }
 
     public PageResult<Help> findAll(Integer pageNumber, Integer pageSize) {

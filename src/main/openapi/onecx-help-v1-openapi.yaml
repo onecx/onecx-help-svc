@@ -1,0 +1,104 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-help v1 service
+  version: 1.0.0
+servers:
+  - url: "http://onecx-help-svc:8080"
+tags:
+  - name: helpsV1
+paths:
+  /v1/helps/search:
+    post:
+      tags:
+        - helpsV1
+      description: search help item by criteria
+      operationId: searchHelpItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpSearchCriteria'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Help'
+        "404":
+          description: Not found
+components:
+  schemas:
+    HelpSearchCriteria:
+      type: object
+      required:
+        - itemId
+        - appId
+      properties:
+        itemId:
+          type: string
+        appId:
+          type: string
+    Help:
+      required:
+        - itemId
+      type: object
+      properties:
+        version:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        itemId:
+          type: string
+        context:
+          type: string
+        baseUrl:
+          type: string
+        resourceUrl:
+          type: string
+        appId:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
+    ProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemDetailInvalidParam'
+    ProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    ProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
