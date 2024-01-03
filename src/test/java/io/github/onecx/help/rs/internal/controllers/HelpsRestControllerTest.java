@@ -72,7 +72,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // create help with existing name
         helpDto = new CreateHelpDTO();
         helpDto.setItemId("cg");
-        helpDto.setAppId("appId");
+        helpDto.setAppId("appId1");
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
@@ -84,7 +84,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo("PERSIST_ENTITY_FAILED");
         assertThat(exception.getDetail()).isEqualTo(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(cg, appId, default) already exists.]");
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(cg, appId1, default) already exists.]");
     }
 
     @Test
@@ -209,6 +209,10 @@ class HelpsRestControllerTest extends AbstractTest {
         assertThat(data.getStream()).isNotNull().hasSize(3);
 
         criteria.setItemId(" ");
+        criteria.setResourceUrl(" ");
+        criteria.setBaseUrl(" ");
+        criteria.setContext(" ");
+        criteria.setAppId(" ");
         data = given()
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
@@ -224,6 +228,11 @@ class HelpsRestControllerTest extends AbstractTest {
         assertThat(data.getStream()).isNotNull().hasSize(3);
 
         criteria.setItemId("cg");
+        criteria.setResourceUrl("test1");
+        criteria.setBaseUrl("test1");
+        criteria.setContext("test1");
+        criteria.setAppId("appId1");
+
         data = given()
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
@@ -237,7 +246,9 @@ class HelpsRestControllerTest extends AbstractTest {
         assertThat(data).isNotNull();
         assertThat(data.getTotalElements()).isEqualTo(1);
         assertThat(data.getStream()).isNotNull().hasSize(1);
-
+        assertThat(data.getStream().get(0).getContext()).isEqualTo(criteria.getContext());
+        assertThat(data.getStream().get(0).getResourceUrl()).isEqualTo(criteria.getResourceUrl());
+        assertThat(data.getStream().get(0).getBaseUrl()).isEqualTo(criteria.getBaseUrl());
     }
 
     @Test
@@ -326,5 +337,19 @@ class HelpsRestControllerTest extends AbstractTest {
                 exception.getDetail());
         Assertions.assertNotNull(exception.getInvalidParams());
         Assertions.assertEquals(1, exception.getInvalidParams().size());
+    }
+
+    @Test
+    void getAllAppsWithHelpItemsTest() {
+        var output = given()
+                .contentType(APPLICATION_JSON)
+                .when()
+                .get("/appIds")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .extract().as(HelpAppIdsDTO.class);
+        Assertions.assertNotNull(output);
+        Assertions.assertEquals(output.getAppIds().size(), 2);
+        Assertions.assertEquals(output.getAppIds().get(0), "appId");
     }
 }
