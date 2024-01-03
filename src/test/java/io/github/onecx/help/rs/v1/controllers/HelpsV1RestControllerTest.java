@@ -43,6 +43,39 @@ public class HelpsV1RestControllerTest extends AbstractTest {
     }
 
     @Test
+    void searchHelpItemByAppIdAndItemIdBlankInputTest() {
+
+        var criteria = new HelpSearchCriteriaDTOV1();
+        criteria.setAppId(" ");
+        criteria.setItemId(" ");
+
+        var data = given()
+                .contentType(APPLICATION_JSON)
+                .body(criteria)
+                .post()
+                .then()
+                .statusCode(INTERNAL_SERVER_ERROR.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract();
+
+        assertThat(data).isNotNull();
+
+        criteria.setAppId(null);
+        criteria.setItemId(null);
+
+        data = given()
+                .contentType(APPLICATION_JSON)
+                .body(criteria)
+                .post()
+                .then()
+                .statusCode(BAD_REQUEST.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract();
+
+        assertThat(data).isNotNull();
+    }
+
+    @Test
     void searchHelpItemByAppIdAndItemIdTestFail() {
 
         var criteria = new HelpSearchCriteriaDTOV1();
@@ -60,20 +93,4 @@ public class HelpsV1RestControllerTest extends AbstractTest {
         Assertions.assertEquals(data.getErrorCode(), "CONSTRAINT_VIOLATIONS");
     }
 
-    @Test
-    void searchHelpItemByAppIdAndItemIdNoResultTest() {
-
-        var criteria = new HelpSearchCriteriaDTOV1();
-        criteria.setAppId("randomId");
-        criteria.setItemId("randomId");
-
-        var data = given()
-                .contentType(APPLICATION_JSON)
-                .body(criteria)
-                .post()
-                .then()
-                .statusCode(OK.getStatusCode());
-
-        assertThat(data).isNotNull();
-    }
 }

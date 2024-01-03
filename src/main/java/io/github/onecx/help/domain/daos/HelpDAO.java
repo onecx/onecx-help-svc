@@ -62,10 +62,10 @@ public class HelpDAO extends AbstractDAO<Help> {
             var root = cq.from(Help.class);
             List<Predicate> predicates = new ArrayList<>();
 
-            if (criteria.getItemId() != null && !criteria.getItemId().isBlank()) {
+            if (!criteria.getItemId().isBlank()) {
                 predicates.add(cb.like(root.get(Help_.itemId), criteria.getItemId()));
             }
-            if (criteria.getAppId() != null && !criteria.getAppId().isBlank()) {
+            if (!criteria.getAppId().isBlank()) {
                 predicates.add(cb.like(root.get(Help_.appId), criteria.getAppId()));
             }
             if (!predicates.isEmpty()) {
@@ -73,8 +73,6 @@ public class HelpDAO extends AbstractDAO<Help> {
             }
             return this.getEntityManager().createQuery(cq).getSingleResult();
 
-        } catch (NoResultException nre) {
-            return null;
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA, ex);
         }
