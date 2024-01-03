@@ -19,7 +19,7 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(HelpsV1RestController.class)
 @WithDBData(value = "data/testdata-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
-public class HelpsV1RestControllerTest extends AbstractTest {
+class HelpsV1RestControllerTest extends AbstractTest {
     @Test
     void searchHelpItemByAppIdAndItemIdTest() {
 
@@ -90,7 +90,7 @@ public class HelpsV1RestControllerTest extends AbstractTest {
                 .as(ProblemDetailResponseDTOV1.class);
 
         assertThat(data).isNotNull();
-        Assertions.assertEquals(data.getErrorCode(), "CONSTRAINT_VIOLATIONS");
+        Assertions.assertEquals("CONSTRAINT_VIOLATIONS", data.getErrorCode());
     }
 
 }
