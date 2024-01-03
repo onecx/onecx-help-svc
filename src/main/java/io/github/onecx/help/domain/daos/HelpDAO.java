@@ -50,6 +50,18 @@ public class HelpDAO extends AbstractDAO<Help> {
             if (criteria.getItemId() != null && !criteria.getItemId().isBlank()) {
                 cq.where(cb.like(root.get(Help_.itemId), QueryCriteriaUtil.wildcard(criteria.getItemId())));
             }
+            if (criteria.getAppId() != null && !criteria.getAppId().isBlank()) {
+                cq.where(cb.like(root.get(Help_.appId), criteria.getAppId()));
+            }
+            if (criteria.getContext() != null && !criteria.getContext().isBlank()) {
+                cq.where(cb.like(root.get(Help_.context), criteria.getContext()));
+            }
+            if (criteria.getBaseUrl() != null && !criteria.getBaseUrl().isBlank()) {
+                cq.where(cb.like(root.get(Help_.baseUrl), criteria.getBaseUrl()));
+            }
+            if (criteria.getResourceUrl() != null && !criteria.getResourceUrl().isBlank()) {
+                cq.where(cb.like(root.get(Help_.resourceUrl), criteria.getResourceUrl()));
+            }
 
             return createPageQuery(cq, Page.of(criteria.getPageNumber(), criteria.getPageSize())).getPageResult();
         } catch (Exception ex) {
