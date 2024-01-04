@@ -40,6 +40,8 @@ class HelpDAOTest {
                 HelpDAO.ErrorKeys.ERROR_FIND_ALL_HELP_PAGE);
         methodExceptionTests(() -> dao.findByAppIdAndItemId(null),
                 HelpDAO.ErrorKeys.ERROR_FIND_HELPS_BY_CRITERIA);
+        methodExceptionTests(() -> dao.findApplicationsWithHelpItems(),
+                HelpDAO.ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS);
     }
 
     void methodExceptionTests(Executable fn, Enum<?> key) {
