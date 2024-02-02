@@ -9,35 +9,6 @@ tags:
   - name: helpsInternal
 paths:
   /internal/helps:
-    get:
-      tags:
-        - helpsInternal
-      description: Return list of helps
-      operationId: getHelps
-      parameters:
-        - name: pageNumber
-          in: query
-          schema:
-            format: int32
-            description: The number of page.
-            default: 0
-            type: integer
-        - name: pageSize
-          in: query
-          schema:
-            format: int32
-            description: The size of page
-            default: 10
-            type: integer
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/HelpPageResult'
     post:
       tags:
         - helpsInternal
@@ -50,7 +21,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateHelp'
       responses:
-        "201":
+        201:
           description: New help created
           headers:
             Location:
@@ -62,25 +33,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Help'
-        "400":
+        400:
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-  /internal/helps/appIds:
-    get:
-      tags:
-        - helpsInternal
-      summary: Get all application IDs to which help items are assigned
-      operationId: getAllAppsWithHelpItems
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HelpAppIds'
   /internal/helps/{id}:
     get:
       tags:
@@ -94,7 +52,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
@@ -120,15 +78,19 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateHelp'
       responses:
-        "204":
+        204:
           description: Help updated
-        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Help'
+        400:
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
-        "404":
+        404:
           description: Help not found
     delete:
       tags:
@@ -142,8 +104,21 @@ paths:
           schema:
             type: string
       responses:
-        "204":
-          description: No Content
+        204:
+          description: Help deleted
+  /internal/helps/appIds:
+    get:
+      tags:
+        - helpsInternal
+      summary: Get all application IDs to which help items are assigned
+      operationId: getAllAppsWithHelpItems
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpAppIds'
   /internal/helps/search:
     post:
       tags:
@@ -157,35 +132,18 @@ paths:
             schema:
               $ref: '#/components/schemas/HelpSearchCriteria'
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/HelpPageResult'
-  /internal/helps/itemId/{itemId}:
-    get:
-      tags:
-        - helpsInternal
-      description: Load a single help definition
-      operationId: getHelpByItemId
-      parameters:
-        - name: itemId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
+                $ref: '#/components/schemas/HelpPageResult'
+        400:
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Help'
-        "404":
-          description: Not found
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
     HelpSearchCriteria:
@@ -232,11 +190,9 @@ components:
           items:
             $ref: '#/components/schemas/Help'
     Help:
-      required:
-        - itemId
       type: object
       properties:
-        version:
+        modificationCount:
           format: int32
           type: integer
         creationDate:
@@ -297,19 +253,6 @@ components:
         - itemId
       type: object
       properties:
-        version:
-          format: int32
-          type: integer
-        creationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationUser:
-          type: string
-        modificationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationUser:
-          type: string
-        id:
-          type: string
         itemId:
           type: string
         context:
@@ -322,22 +265,13 @@ components:
           type: string
     UpdateHelp:
       required:
-        - name
+        - itemId
+        - modificationCount
       type: object
       properties:
-        version:
+        modificationCount:
           format: int32
           type: integer
-        creationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        creationUser:
-          type: string
-        modificationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationUser:
-          type: string
-        id:
-          type: string
         itemId:
           type: string
         context:

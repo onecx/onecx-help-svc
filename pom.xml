@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.github.onecx</groupId>
+        <groupId>org.tkit.onecx</groupId>
         <artifactId>onecx-quarkus3-parent</artifactId>
-        <version>0.25.0</version>
+        <version>0.31.0</version>
     </parent>
 
     <artifactId>onecx-help-svc</artifactId>
@@ -15,11 +15,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.onecx.quarkus</groupId>
+            <groupId>org.tkit.onecx.quarkus</groupId>
             <artifactId>onecx-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.onecx.quarkus</groupId>
+            <groupId>org.tkit.onecx.quarkus</groupId>
             <artifactId>onecx-tenant</artifactId>
         </dependency>
         <!-- 1000kit -->
@@ -181,8 +181,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>src/main/openapi/onecx-help-internal-openapi.yaml</inputSpec>
-                            <apiPackage>gen.io.github.onecx.help.rs.internal</apiPackage>
-                            <modelPackage>gen.io.github.onecx.help.rs.internal.model</modelPackage>
+                            <apiPackage>gen.org.tkit.onecx.help.rs.internal</apiPackage>
+                            <modelPackage>gen.org.tkit.onecx.help.rs.internal.model</modelPackage>
                             <modelNameSuffix>DTO</modelNameSuffix>
                         </configuration>
                     </execution>
@@ -193,8 +193,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>src/main/openapi/onecx-help-v1-openapi.yaml</inputSpec>
-                            <apiPackage>gen.io.github.onecx.help.rs.v1</apiPackage>
-                            <modelPackage>gen.io.github.onecx.help.rs.v1.model</modelPackage>
+                            <apiPackage>gen.org.tkit.onecx.help.rs.v1</apiPackage>
+                            <modelPackage>gen.org.tkit.onecx.help.rs.v1.model</modelPackage>
                             <modelNameSuffix>DTOV1</modelNameSuffix>
                         </configuration>
                     </execution>
@@ -205,8 +205,8 @@
                         </goals>
                         <configuration>
                             <inputSpec>src/main/openapi/di-help-v1.yaml</inputSpec>
-                            <apiPackage>gen.io.github.onecx.help.di.v1</apiPackage>
-                            <modelPackage>gen.io.github.onecx.help.di.v1.model</modelPackage>
+                            <apiPackage>gen.org.tkit.onecx.help.di.v1</apiPackage>
+                            <modelPackage>gen.org.tkit.onecx.help.di.v1.model</modelPackage>
                             <modelNameSuffix>DTOV1</modelNameSuffix>
                             <skipValidateSpec>true</skipValidateSpec>
                             <generateApis>false</generateApis>
