@@ -1,12 +1,25 @@
 {
   "helps": {
-    "Help1": {
-      "tenantId": "default",
-      "itemId": "Help1"
+    "0000": {},
+    "default": {
+      "Help1": {
+        "appId": "app1",
+        "resourceUrl": "r1"
+      },
+      "Help2": {
+        "appId": "app1",
+        "resourceUrl": "r1"
+      }
     },
-    "Help2": {
-      "tenantId": "default",
-      "itemId": "Help2"
+    "9999": {
+      "Help1": {
+        "appId": "app1",
+        "resourceUrl": "r1"
+      },
+      "Help2": {
+        "appId": "app2",
+        "resourceUrl": "r1"
+      }
     }
   }
 }
