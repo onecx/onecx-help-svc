@@ -1,10 +1,10 @@
-apiVersion: v1
+apiVersion: v2
 name: onecx-help-svc
 version: 0.0.0
 appVersion: 0.0.0
 description: Onecx help service
 keywords:
-  - tenant
+  - help
 sources:
   - https://github.com/onecx/onecx-help-svc
 maintainers:
