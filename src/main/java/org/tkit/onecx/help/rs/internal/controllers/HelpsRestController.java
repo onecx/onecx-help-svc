@@ -16,12 +16,14 @@ import org.tkit.onecx.help.domain.daos.HelpDAO;
 import org.tkit.onecx.help.rs.internal.mappers.ExceptionMapper;
 import org.tkit.onecx.help.rs.internal.mappers.HelpMapper;
 import org.tkit.quarkus.jpa.exceptions.ConstraintException;
+import org.tkit.quarkus.log.cdi.LogService;
 
 import gen.org.tkit.onecx.help.rs.internal.HelpsInternalApi;
 import gen.org.tkit.onecx.help.rs.internal.model.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@LogService
 @ApplicationScoped
 @Transactional(value = NOT_SUPPORTED)
 public class HelpsRestController implements HelpsInternalApi {
