@@ -34,7 +34,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         assertThat(data).isNotNull();
         Assertions.assertEquals("appId", data.getAppId());
-        Assertions.assertEquals( "cg", data.getItemId());
+        Assertions.assertEquals("cg", data.getItemId());
     }
 
     @Test
