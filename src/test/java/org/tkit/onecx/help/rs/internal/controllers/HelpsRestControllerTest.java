@@ -248,6 +248,15 @@ class HelpsRestControllerTest extends AbstractTest {
                 .extract()
                 .body().as(HelpDTO.class);
 
+        // update theme with wrong modificationCount
+        given()
+                .contentType(APPLICATION_JSON)
+                .body(helpDto)
+                .when()
+                .pathParam("id", "11-111")
+                .put("{id}")
+                .then().statusCode(BAD_REQUEST.getStatusCode());
+
         assertThat(dto).isNotNull();
         assertThat(dto.getContext()).isEqualTo(helpDto.getContext());
 
