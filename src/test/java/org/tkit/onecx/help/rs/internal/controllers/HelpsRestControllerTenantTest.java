@@ -204,7 +204,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         assertThat(data.getTotalElements()).isEqualTo(2);
         assertThat(data.getStream()).isNotNull().hasSize(2);
 
-        criteria.setItemId(" ");
+        criteria.setItemId("unknown");
         data = given()
                 .contentType(APPLICATION_JSON)
                 .header(APM_HEADER_PARAM, createToken("org1"))
@@ -217,8 +217,8 @@ class HelpsRestControllerTenantTest extends AbstractTest {
                 .as(HelpPageResultDTO.class);
 
         assertThat(data).isNotNull();
-        assertThat(data.getTotalElements()).isEqualTo(2);
-        assertThat(data.getStream()).isNotNull().hasSize(2);
+        assertThat(data.getTotalElements()).isEqualTo(0);
+        assertThat(data.getStream()).isNotNull().hasSize(0);
 
         criteria.setItemId("cg");
         data = given()

@@ -168,7 +168,7 @@ class HelpsRestControllerTest extends AbstractTest {
         assertThat(data.getTotalElements()).isEqualTo(3);
         assertThat(data.getStream()).isNotNull().hasSize(3);
 
-        criteria.setItemId(" ");
+        criteria.setItemId("");
         criteria.setResourceUrl(" ");
         criteria.setBaseUrl(" ");
         criteria.setContext(" ");
