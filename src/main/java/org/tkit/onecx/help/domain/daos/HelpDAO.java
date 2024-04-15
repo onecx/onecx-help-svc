@@ -20,7 +20,6 @@ import org.tkit.quarkus.jpa.daos.Page;
 import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.DAOException;
 import org.tkit.quarkus.jpa.models.TraceableEntity_;
-import org.tkit.quarkus.jpa.utils.QueryCriteriaUtil;
 
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
@@ -49,9 +48,6 @@ public class HelpDAO extends AbstractDAO<Help> {
             var root = cq.from(Help.class);
 
             List<Predicate> predicates = new ArrayList<>();
-            if (criteria.getItemId() != null && !criteria.getItemId().equals("")) {
-                predicates.add(cb.like(root.get(Help_.itemId), QueryCriteriaUtil.wildcard(criteria.getItemId())));
-            }
             addSearchStringPredicate(predicates, cb, root.get(Help_.itemId), criteria.getItemId());
             addSearchStringPredicate(predicates, cb, root.get(Help_.appId), criteria.getAppId());
             addSearchStringPredicate(predicates, cb, root.get(Help_.context), criteria.getContext());
