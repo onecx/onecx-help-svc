@@ -304,7 +304,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         Assertions.assertEquals(
                 "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(helpWithoutPortal, appId, tenant-100) already exists.]",
                 exception.getDetail());
-        Assertions.assertNull(exception.getInvalidParams());
+        Assertions.assertTrue(exception.getInvalidParams().isEmpty());
 
     }
 
