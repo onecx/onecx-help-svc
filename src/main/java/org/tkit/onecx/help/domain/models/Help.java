@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "HELP", uniqueConstraints = {
-        @UniqueConstraint(name = "HELP_ITEM_ID", columnNames = { "ITEM_ID", "APP_ID", "TENANT_ID" })
+        @UniqueConstraint(name = "HELP_ITEM_ID", columnNames = { "ITEM_ID", "PRODUCT_NAME", "TENANT_ID" })
 })
 @SuppressWarnings("java:S2160")
 public class Help extends TraceableEntity {
@@ -33,7 +33,7 @@ public class Help extends TraceableEntity {
     @Column(name = "RESOURCE_URL")
     private String resourceUrl;
 
-    @Column(name = "APP_ID")
-    private String appId;
+    @Column(name = "PRODUCT_NAME")
+    private String productName;
 
 }

@@ -31,11 +31,11 @@ class HelpDAOTest {
         methodExceptionTests(() -> dao.findById(null),
                 HelpDAO.ErrorKeys.FIND_ENTITY_BY_ID_FAILED);
         methodExceptionTests(() -> dao.findHelpsByCriteria(null),
-                HelpDAO.ErrorKeys.ERROR_GET_BY_APP_ID_AND_ITEM_ID);
-        methodExceptionTests(() -> dao.findByAppIdAndItemId(null, null),
-                HelpDAO.ErrorKeys.ERROR_GET_BY_APP_ID_AND_ITEM_ID);
-        methodExceptionTests(() -> dao.findApplicationsWithHelpItems(),
-                HelpDAO.ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS);
+                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
+        methodExceptionTests(() -> dao.findByProductNameAndItemId(null, null),
+                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
+        methodExceptionTests(() -> dao.findProductsWithHelpItems(),
+                HelpDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS);
     }
 
     void methodExceptionTests(Executable fn, Enum<?> key) {

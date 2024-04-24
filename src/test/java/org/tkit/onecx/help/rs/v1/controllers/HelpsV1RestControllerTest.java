@@ -19,11 +19,11 @@ import io.quarkus.test.junit.QuarkusTest;
 @WithDBData(value = "data/test-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 class HelpsV1RestControllerTest extends AbstractTest {
     @Test
-    void searchHelpItemByAppIdAndItemIdTest() {
+    void searchHelpItemByProductNameAndItemIdTest() {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .pathParam("appId", "appId")
+                .pathParam("productName", "productName")
                 .pathParam("helpItemId", "cg")
                 .get()
                 .then()
@@ -33,16 +33,16 @@ class HelpsV1RestControllerTest extends AbstractTest {
                 .as(HelpDTOV1.class);
 
         assertThat(data).isNotNull();
-        Assertions.assertEquals("appId", data.getAppId());
+        Assertions.assertEquals("productName", data.getProductName());
         Assertions.assertEquals("cg", data.getItemId());
     }
 
     @Test
-    void searchByAppIdAndItemIdNoFoundTest() {
+    void searchByProductNameAndItemIdNoFoundTest() {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .pathParam("appId", "does-not-exists")
+                .pathParam("productName", "does-not-exists")
                 .pathParam("helpItemId", "cg")
                 .get()
                 .then()

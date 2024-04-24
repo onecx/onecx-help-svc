@@ -60,9 +60,9 @@ public class HelpsRestController implements HelpsInternalApi {
     }
 
     @Override
-    public Response getAllAppsWithHelpItems() {
-        var appIds = dao.findApplicationsWithHelpItems();
-        var result = mapper.map(appIds);
+    public Response getAllProductsWithHelpItems() {
+        var productNames = dao.findProductsWithHelpItems();
+        var result = mapper.map(productNames);
         return Response.ok(result).build();
     }
 

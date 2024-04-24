@@ -43,5 +43,5 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string

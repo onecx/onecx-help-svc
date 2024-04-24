@@ -29,7 +29,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // create help
         var helpDto = new CreateHelpDTO();
         helpDto.setItemId("test01");
-        helpDto.setAppId("appId");
+        helpDto.setProductName("productName");
         helpDto.setContext("context");
         helpDto.setResourceUrl("resource/url");
         helpDto.setBaseUrl("base/url");
@@ -55,7 +55,7 @@ class HelpsRestControllerTest extends AbstractTest {
                 .returns(helpDto.getContext(), from(HelpDTO::getContext))
                 .returns(helpDto.getBaseUrl(), from(HelpDTO::getBaseUrl))
                 .returns(helpDto.getResourceUrl(), from(HelpDTO::getResourceUrl))
-                .returns(helpDto.getAppId(), from(HelpDTO::getAppId));
+                .returns(helpDto.getProductName(), from(HelpDTO::getProductName));
 
         // create help without body
         var exception = given()
@@ -72,7 +72,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // create help with existing name
         helpDto = new CreateHelpDTO();
         helpDto.setItemId("cg");
-        helpDto.setAppId("appId1");
+        helpDto.setProductName("productName1");
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
@@ -84,7 +84,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo("PERSIST_ENTITY_FAILED");
         assertThat(exception.getDetail()).isEqualTo(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(cg, appId1, default) already exists.]");
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(cg, productName1, default) already exists.]");
     }
 
     @Test
@@ -172,7 +172,7 @@ class HelpsRestControllerTest extends AbstractTest {
         criteria.setResourceUrl(" ");
         criteria.setBaseUrl(" ");
         criteria.setContext(" ");
-        criteria.setAppId(" ");
+        criteria.setProductName(" ");
         data = given()
                 .contentType(APPLICATION_JSON)
                 .body(criteria)
@@ -191,7 +191,7 @@ class HelpsRestControllerTest extends AbstractTest {
         criteria.setResourceUrl("test1");
         criteria.setBaseUrl("test1");
         criteria.setContext("test1");
-        criteria.setAppId("appId1");
+        criteria.setProductName("productName1");
 
         data = given()
                 .contentType(APPLICATION_JSON)
@@ -268,7 +268,7 @@ class HelpsRestControllerTest extends AbstractTest {
         var helpDto = new UpdateHelpDTO();
         helpDto.setModificationCount(0);
         helpDto.setItemId("helpWithoutPortal");
-        helpDto.setAppId("appId");
+        helpDto.setProductName("productName");
         helpDto.setContext("context");
 
         var exception = given()
@@ -284,7 +284,7 @@ class HelpsRestControllerTest extends AbstractTest {
         Assertions.assertNotNull(exception);
         Assertions.assertEquals("MERGE_ENTITY_FAILED", exception.getErrorCode());
         Assertions.assertEquals(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(helpWithoutPortal, appId, default) already exists.]",
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(helpWithoutPortal, productName, default) already exists.]",
                 exception.getDetail());
         Assertions.assertTrue(exception.getInvalidParams().isEmpty());
 
@@ -315,12 +315,12 @@ class HelpsRestControllerTest extends AbstractTest {
         var output = given()
                 .contentType(APPLICATION_JSON)
                 .when()
-                .get("/appIds")
+                .get("/productNames")
                 .then()
                 .statusCode(OK.getStatusCode())
-                .extract().as(HelpAppIdsDTO.class);
+                .extract().as(HelpProductNamesDTO.class);
         Assertions.assertNotNull(output);
-        Assertions.assertEquals(2, output.getAppIds().size());
-        Assertions.assertEquals("appId", output.getAppIds().get(0));
+        Assertions.assertEquals(2, output.getProductNames().size());
+        Assertions.assertEquals("productName", output.getProductNames().get(0));
     }
 }

@@ -46,13 +46,13 @@ public interface HelpMapper {
     @Mapping(target = "tenantId", ignore = true)
     void update(UpdateHelpDTO helpDTO, @MappingTarget Help entity);
 
-    default HelpAppIdsDTO map(List<String> appIds) {
-        if (appIds == null) {
+    default HelpProductNamesDTO map(List<String> productNames) {
+        if (productNames == null) {
             return null;
         }
-        HelpAppIdsDTO appIdsDTO = new HelpAppIdsDTO();
-        appIdsDTO.setAppIds(appIds);
-        return appIdsDTO;
+        HelpProductNamesDTO productNamesDTO = new HelpProductNamesDTO();
+        productNamesDTO.setProductNames(productNames);
+        return productNamesDTO;
     }
 
 }

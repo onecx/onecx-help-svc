@@ -49,7 +49,7 @@ public class HelpDAO extends AbstractDAO<Help> {
 
             List<Predicate> predicates = new ArrayList<>();
             addSearchStringPredicate(predicates, cb, root.get(Help_.itemId), criteria.getItemId());
-            addSearchStringPredicate(predicates, cb, root.get(Help_.appId), criteria.getAppId());
+            addSearchStringPredicate(predicates, cb, root.get(Help_.productName), criteria.getProductName());
             addSearchStringPredicate(predicates, cb, root.get(Help_.context), criteria.getContext());
             addSearchStringPredicate(predicates, cb, root.get(Help_.baseUrl), criteria.getBaseUrl());
             addSearchStringPredicate(predicates, cb, root.get(Help_.resourceUrl), criteria.getResourceUrl());
@@ -58,43 +58,43 @@ public class HelpDAO extends AbstractDAO<Help> {
             }
             return createPageQuery(cq, Page.of(criteria.getPageNumber(), criteria.getPageSize())).getPageResult();
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_GET_BY_APP_ID_AND_ITEM_ID, ex);
+            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID, ex);
         }
     }
 
-    public Help findByAppIdAndItemId(String appId, String itemId) {
+    public Help findByProductNameAndItemId(String productName, String itemId) {
         try {
             var cb = this.getEntityManager().getCriteriaBuilder();
             var cq = cb.createQuery(Help.class);
             var root = cq.from(Help.class);
             cq.where(cb.and(
-                    cb.equal(root.get(Help_.appId), appId),
+                    cb.equal(root.get(Help_.productName), productName),
                     cb.equal(root.get(Help_.itemId), itemId)));
             return this.getEntityManager().createQuery(cq).getSingleResult();
         } catch (NoResultException ne) {
             return null;
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_GET_BY_APP_ID_AND_ITEM_ID, ex);
+            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID, ex);
         }
 
     }
 
-    public List<String> findApplicationsWithHelpItems() {
+    public List<String> findProductsWithHelpItems() {
         try {
             var cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<String> cq = cb.createQuery(String.class);
             Root<Help> root = cq.from(Help.class);
-            cq.select(root.get(Help_.APP_ID)).distinct(true);
+            cq.select(root.get(Help_.PRODUCT_NAME)).distinct(true);
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS, ex);
+            throw new DAOException(ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS, ex);
         }
     }
 
     public enum ErrorKeys {
 
         FIND_ENTITY_BY_ID_FAILED,
-        ERROR_GET_BY_APP_ID_AND_ITEM_ID,
-        ERROR_FIND_APPLICATIONS_WITH_HELP_ITEMS
+        ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID,
+        ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS
     }
 }

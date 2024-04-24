@@ -8,17 +8,17 @@ servers:
 tags:
   - name: helpsV1
 paths:
-  /v1/helps/{appId}/{helpItemId}:
+  /v1/helps/{productName}/{helpItemId}:
     get:
       tags:
         - helpsV1
       description: search help item by criteria
       operationId: searchHelpItem
       parameters:
-        - name: appId
+        - name: productName
           in: path
           required: true
-          description: application ID
+          description: product name
           schema:
             type: string
         - name: helpItemId
@@ -51,5 +51,5 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string
