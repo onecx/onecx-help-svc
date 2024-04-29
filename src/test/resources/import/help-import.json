@@ -3,21 +3,21 @@
     "0000": {},
     "default": {
       "Help1": {
-        "appId": "app1",
+        "productName": "product1",
         "resourceUrl": "r1"
       },
       "Help2": {
-        "appId": "app1",
+        "productName": "product1",
         "resourceUrl": "r1"
       }
     },
     "9999": {
       "Help1": {
-        "appId": "app1",
+        "productName": "product1",
         "resourceUrl": "r1"
       },
       "Help2": {
-        "appId": "app2",
+        "productName": "product2",
         "resourceUrl": "r1"
       }
     }

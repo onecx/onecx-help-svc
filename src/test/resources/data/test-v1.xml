@@ -2,8 +2,8 @@
 <dataset>
 
 	<!-- HELP -->
-	<HELP guid="11-111" optlock="0" item_id="cg" app_id="appId" tenant_id="default" />
-	<HELP guid="22-222" optlock="0" item_id="helpWithoutPortal" app_id="appId"  tenant_id="default" />
-	<HELP guid="DELETE_1" optlock="0" item_id="toDelete" app_id="appId" tenant_id="default" />
+	<HELP guid="11-111" optlock="0" item_id="cg" product_name="productName" tenant_id="default" />
+	<HELP guid="22-222" optlock="0" item_id="helpWithoutPortal" product_name="productName"  tenant_id="default" />
+	<HELP guid="DELETE_1" optlock="0" item_id="toDelete" product_name="productName" tenant_id="default" />
 
 </dataset>

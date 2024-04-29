@@ -24,8 +24,8 @@ public class HelpsV1RestController implements HelpsV1Api {
     ExternalV1Mapper mapper;
 
     @Override
-    public Response searchHelpItem(String appId, String helpItemId) {
-        var help = dao.findByAppIdAndItemId(appId, helpItemId);
+    public Response searchHelpItem(String productName, String helpItemId) {
+        var help = dao.findByProductNameAndItemId(productName, helpItemId);
         if (help == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

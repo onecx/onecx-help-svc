@@ -17,7 +17,7 @@ public class HelpSearchCriteria {
 
     private String resourceUrl;
 
-    private String appId;
+    private String productName;
 
     private Integer pageNumber;
 

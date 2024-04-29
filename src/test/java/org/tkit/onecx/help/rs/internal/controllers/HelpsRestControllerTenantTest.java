@@ -28,7 +28,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // create help
         var helpDto = new CreateHelpDTO();
         helpDto.setItemId("test01");
-        helpDto.setAppId("appId");
+        helpDto.setProductName("productName");
         helpDto.setContext("context");
         helpDto.setResourceUrl("resource/url");
         helpDto.setBaseUrl("base/url");
@@ -65,7 +65,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
                 .returns(helpDto.getContext(), from(HelpDTO::getContext))
                 .returns(helpDto.getBaseUrl(), from(HelpDTO::getBaseUrl))
                 .returns(helpDto.getResourceUrl(), from(HelpDTO::getResourceUrl))
-                .returns(helpDto.getAppId(), from(HelpDTO::getAppId));
+                .returns(helpDto.getProductName(), from(HelpDTO::getProductName));
 
         // create help without body
         var exception = given()
@@ -83,7 +83,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // create help with existing itemId
         helpDto = new CreateHelpDTO();
         helpDto.setItemId("cg");
-        helpDto.setAppId("appId");
+        helpDto.setProductName("productName");
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
@@ -96,7 +96,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo("PERSIST_ENTITY_FAILED");
         assertThat(exception.getDetail()).isEqualTo(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(cg, appId, tenant-100) already exists.]");
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(cg, productName, tenant-100) already exists.]");
     }
 
     @Test
@@ -286,7 +286,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         var helpDto = new UpdateHelpDTO();
         helpDto.setModificationCount(0);
         helpDto.setItemId("helpWithoutPortal");
-        helpDto.setAppId("appId");
+        helpDto.setProductName("productName");
         helpDto.setContext("context");
 
         var exception = given()
@@ -302,7 +302,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         Assertions.assertNotNull(exception);
         Assertions.assertEquals("MERGE_ENTITY_FAILED", exception.getErrorCode());
         Assertions.assertEquals(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, app_id, tenant_id)=(helpWithoutPortal, appId, tenant-100) already exists.]",
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(helpWithoutPortal, productName, tenant-100) already exists.]",
                 exception.getDetail());
         Assertions.assertTrue(exception.getInvalidParams().isEmpty());
 

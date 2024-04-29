@@ -106,19 +106,19 @@ paths:
       responses:
         204:
           description: Help deleted
-  /internal/helps/appIds:
+  /internal/helps/productNames:
     get:
       tags:
         - helpsInternal
-      summary: Get all application IDs to which help items are assigned
-      operationId: getAllAppsWithHelpItems
+      summary: Get all product names to which help items are assigned
+      operationId: getAllProductsWithHelpItems
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HelpAppIds'
+                $ref: '#/components/schemas/HelpProductNames'
   /internal/helps/search:
     post:
       tags:
@@ -157,7 +157,7 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string                                        
         pageNumber:
           format: int32
@@ -213,7 +213,7 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string
     OffsetDateTime:
       format: date-time
@@ -261,7 +261,7 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string
     UpdateHelp:
       required:
@@ -280,12 +280,12 @@ components:
           type: string
         resourceUrl:
           type: string
-        appId:
+        productName:
           type: string
-    HelpAppIds:
+    HelpProductNames:
       type: object
       properties:
-        appIds:
+        productNames:
           type: array
           items:
             type: string
