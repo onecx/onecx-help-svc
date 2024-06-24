@@ -17,11 +17,13 @@ import org.tkit.quarkus.test.WithDBData;
 import gen.org.tkit.onecx.help.rs.internal.model.*;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.keycloak.client.KeycloakTestClient;
 
 @QuarkusTest
 @TestHTTPEndpoint(HelpsRestController.class)
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 class HelpsRestControllerTest extends AbstractTest {
+    KeycloakTestClient keycloakTestClient = new KeycloakTestClient();
 
     @Test
     void createNewHelpTest() {
@@ -37,6 +39,7 @@ class HelpsRestControllerTest extends AbstractTest {
         var uri = given()
                 .when()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(helpDto)
                 .post()
                 .then().statusCode(CREATED.getStatusCode())
@@ -44,6 +47,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var dto = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .get(uri)
                 .then()
                 .statusCode(Response.Status.OK.getStatusCode())
@@ -61,6 +65,7 @@ class HelpsRestControllerTest extends AbstractTest {
         var exception = given()
                 .when()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .post()
                 .then()
                 .statusCode(BAD_REQUEST.getStatusCode())
@@ -76,6 +81,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(helpDto)
                 .post()
                 .then()
@@ -93,6 +99,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // delete help
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .pathParam("id", "DELETE_1")
                 .delete("{id}")
                 .then().statusCode(NO_CONTENT.getStatusCode());
@@ -100,6 +107,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // check if help exists
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .pathParam("id", "DELETE_1")
                 .get("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
@@ -107,6 +115,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // delete help in portal
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .pathParam("id", "11-111")
                 .delete("{id}")
                 .then()
@@ -119,6 +128,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var dto = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .get("22-222")
                 .then().statusCode(OK.getStatusCode())
                 .contentType(APPLICATION_JSON)
@@ -131,12 +141,14 @@ class HelpsRestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .pathParam("id", "___")
                 .get("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
         dto = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .pathParam("id", "11-111")
                 .get("{id}")
                 .then().statusCode(OK.getStatusCode())
@@ -156,6 +168,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -175,6 +188,7 @@ class HelpsRestControllerTest extends AbstractTest {
         criteria.setProductName(" ");
         data = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -195,6 +209,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         data = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -222,15 +237,27 @@ class HelpsRestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(helpDto)
                 .when()
                 .pathParam("id", "does-not-exists")
                 .put("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
+        //update with missing scope -> forbidden
+        given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken("read-only"))
+                .body(helpDto)
+                .when()
+                .pathParam("id", "11-111")
+                .put("{id}")
+                .then().statusCode(FORBIDDEN.getStatusCode());
+
         // update help
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(helpDto)
                 .when()
                 .pathParam("id", "11-111")
@@ -240,6 +267,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // download help
         var dto = given().contentType(APPLICATION_JSON)
                 .body(helpDto)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .when()
                 .pathParam("id", "11-111")
                 .get("{id}")
@@ -251,6 +279,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // update theme with wrong modificationCount
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .body(helpDto)
                 .when()
                 .pathParam("id", "11-111")
@@ -273,6 +302,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .when()
                 .body(helpDto)
                 .pathParam("id", "11-111")
@@ -295,6 +325,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .when()
                 .pathParam("id", "update_create_new")
                 .put("{id}")
@@ -314,6 +345,7 @@ class HelpsRestControllerTest extends AbstractTest {
     void getAllAppsWithHelpItemsTest() {
         var output = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(keycloakTestClient.getClientAccessToken())
                 .when()
                 .get("/productNames")
                 .then()

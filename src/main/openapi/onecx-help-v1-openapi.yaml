@@ -10,6 +10,8 @@ tags:
 paths:
   /v1/helps/{productName}/{helpItemId}:
     get:
+      security:
+        - oauth2: [ ocx-hp:read ]
       tags:
         - helpsV1
       description: search help item by criteria
@@ -37,6 +39,14 @@ paths:
         404:
           description: Help not found
 components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://oauth.simple.api/token
+          scopes:
+            ocx-hp:read: Grants read access
   schemas:
     Help:
       required:
