@@ -37,6 +37,14 @@ public class AbstractTest {
                         }));
     }
 
+    protected static String createAdminClient() {
+        return keycloakTestClient.getClientAccessToken("quarkus-app", "secret");
+    }
+
+    protected static String createReadOnlyClient() {
+        return keycloakTestClient.getClientAccessToken("read-only", "secret");
+    }
+
     protected static String createToken(String organizationId) {
         try {
             String userName = "test-user";

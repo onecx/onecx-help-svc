@@ -36,7 +36,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         var dto = given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(helpDto)
                 .post()
@@ -47,7 +47,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .get(dto.getId())
                 .then()
@@ -55,7 +55,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .get(dto.getId())
                 .then()
@@ -74,7 +74,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         var exception = given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .post()
                 .then()
@@ -91,7 +91,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(helpDto)
                 .post()
@@ -110,7 +110,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // delete entity with wrong tenant
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .delete("T_DELETE_1")
                 .then().statusCode(NO_CONTENT.getStatusCode());
@@ -118,7 +118,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // delete entity with wrong tenant still exists
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .get("T_DELETE_1")
                 .then().statusCode(OK.getStatusCode());
@@ -126,7 +126,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // delete help
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .delete("T_DELETE_1")
                 .then().statusCode(NO_CONTENT.getStatusCode());
@@ -134,7 +134,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // check if help exists
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .get("T_DELETE_1")
                 .then().statusCode(NOT_FOUND.getStatusCode());
@@ -142,7 +142,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // delete help in portal
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .delete("T_11-111")
                 .then()
@@ -155,7 +155,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         var dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .get("T_22-222")
                 .then().statusCode(OK.getStatusCode())
@@ -169,13 +169,13 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .get("T_22-222")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
         dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .get("T_11-111")
                 .then().statusCode(OK.getStatusCode())
@@ -193,7 +193,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
     void getHelpsNoTenantTest() {
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .get()
                 .then()
                 .statusCode(METHOD_NOT_ALLOWED.getStatusCode());
@@ -205,7 +205,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(criteria)
                 .post("/search")
@@ -222,7 +222,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         criteria.setItemId("unknown");
         data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(criteria)
                 .post("/search")
@@ -239,7 +239,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         criteria.setItemId("cg");
         data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(criteria)
                 .post("/search")
@@ -266,7 +266,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .body(helpDto)
                 .when()
@@ -276,7 +276,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
         // update help
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(helpDto)
                 .when()
@@ -285,7 +285,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         // download help
         var dto = given().contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .body(helpDto)
                 .when()
@@ -311,7 +311,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org1"))
                 .when()
                 .body(helpDto)
@@ -334,7 +334,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken())
+                .auth().oauth2(createAdminClient())
                 .header(APM_HEADER_PARAM, createToken("org2"))
                 .when()
                 .put("update_create_new")

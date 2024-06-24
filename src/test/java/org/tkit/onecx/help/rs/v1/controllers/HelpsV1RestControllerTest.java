@@ -24,7 +24,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken("read-only"))
+                .auth().oauth2(createReadOnlyClient())
                 .pathParam("productName", "productName")
                 .pathParam("helpItemId", "cg")
                 .get()
@@ -44,7 +44,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(keycloakTestClient.getClientAccessToken("read-only"))
+                .auth().oauth2(createReadOnlyClient())
                 .pathParam("productName", "does-not-exists")
                 .pathParam("helpItemId", "cg")
                 .get()
