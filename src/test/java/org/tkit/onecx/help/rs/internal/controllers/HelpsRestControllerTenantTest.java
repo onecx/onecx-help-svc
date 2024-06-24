@@ -16,13 +16,11 @@ import org.tkit.quarkus.test.WithDBData;
 import gen.org.tkit.onecx.help.rs.internal.model.*;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.keycloak.client.KeycloakTestClient;
 
 @QuarkusTest
 @TestHTTPEndpoint(HelpsRestController.class)
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 class HelpsRestControllerTenantTest extends AbstractTest {
-    KeycloakTestClient keycloakTestClient = new KeycloakTestClient();
 
     @Test
     void createNewHelpTest() {

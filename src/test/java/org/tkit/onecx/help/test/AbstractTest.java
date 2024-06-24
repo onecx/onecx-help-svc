@@ -14,12 +14,14 @@ import org.eclipse.microprofile.jwt.Claims;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import io.quarkus.test.keycloak.client.KeycloakTestClient;
 import io.restassured.config.RestAssuredConfig;
 import io.smallrye.jwt.build.Jwt;
 import io.smallrye.jwt.util.KeyUtils;
 
 @SuppressWarnings("java:S2187")
 public class AbstractTest {
+    protected static final KeycloakTestClient keycloakTestClient = new KeycloakTestClient();
 
     protected static final String APM_HEADER_PARAM = "apm-principal-token";
     protected static final String CLAIMS_ORG_ID = "orgId";
