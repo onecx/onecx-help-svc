@@ -18,11 +18,13 @@ import io.quarkus.test.junit.QuarkusTest;
 @TestHTTPEndpoint(HelpsV1RestController.class)
 @WithDBData(value = "data/test-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 class HelpsV1RestControllerTest extends AbstractTest {
+
     @Test
     void searchHelpItemByProductNameAndItemIdTest() {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(createReadOnlyClient())
                 .pathParam("productName", "productName")
                 .pathParam("helpItemId", "cg")
                 .get()
@@ -42,6 +44,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
+                .auth().oauth2(createReadOnlyClient())
                 .pathParam("productName", "does-not-exists")
                 .pathParam("helpItemId", "cg")
                 .get()

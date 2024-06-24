@@ -22,6 +22,14 @@
             <groupId>org.tkit.onecx.quarkus</groupId>
             <artifactId>onecx-tenant</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.tkit.onecx.quarkus</groupId>
+            <artifactId>onecx-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-oidc</artifactId>
+        </dependency>
         <!-- 1000kit -->
         <dependency>
             <groupId>org.tkit.quarkus.lib</groupId>
@@ -141,6 +149,11 @@
             <artifactId>tkit-quarkus-test-db-import</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-test-keycloak-server</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -158,6 +171,7 @@
                     <generateSupportingFiles>false</generateSupportingFiles>
                     <addCompileSourceRoot>true</addCompileSourceRoot>
                     <library>quarkus</library>
+                    <additionalProperties>onecx-scopes=true</additionalProperties>
                     <configOptions>
                         <sourceFolder>/</sourceFolder>
                         <openApiNullable>false</openApiNullable>

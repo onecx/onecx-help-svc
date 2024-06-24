@@ -20,6 +20,12 @@ h| Version
 | https://github.com/onecx/onecx-quarkus/blob/0.20.0/docs/modules/onecx-quarkus/pages/includes/onecx-tenant.adoc[Link]
 | 0.20.0
 
+| quarkus-oidc
+
+| https://quarkus.io/guides/security-oidc-bearer-token-authentication-tutorial[Link]
+| https://github.com/quarkusio/quarkusio.github.io/blob/develop/_generated-doc/latest/config/quarkus-oidc.adoc[Link]
+| 3.11.1
+
 | tkit-quarkus-rest-context
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-rest-context.html[Link]
@@ -141,7 +147,20 @@ h| Version
 | 3.11.1
 
 
+| onecx-security
+
+| 
+| 
+| 0.20.0
+
 | quarkus-smallrye-context-propagation
+
+| 
+| 
+| 3.11.1
+
+
+|===agation
 
 | 
 | 
