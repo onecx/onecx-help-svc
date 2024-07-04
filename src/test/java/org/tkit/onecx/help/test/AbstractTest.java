@@ -37,11 +37,11 @@ public class AbstractTest {
                         }));
     }
 
-    protected static String createAdminClient() {
+    public static String createAdminClient() {
         return keycloakTestClient.getClientAccessToken("quarkus-app", "secret");
     }
 
-    protected static String createReadOnlyClient() {
+    public static String createReadOnlyClient() {
         return keycloakTestClient.getClientAccessToken("read-only", "secret");
     }
 

@@ -4,10 +4,12 @@ import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.help.test.AbstractTest;
+import org.tkit.quarkus.security.test.GenerateKeycloakClient;
 import org.tkit.quarkus.test.WithDBData;
 
 import gen.org.tkit.onecx.help.rs.v1.model.HelpDTOV1;
@@ -17,6 +19,7 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(HelpsV1RestController.class)
 @WithDBData(value = "data/test-v1.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@GenerateKeycloakClient(clientName = "testClient", scopes = { "ocx-hp:read", "ocx-hp:write" })
 class HelpsV1RestControllerTest extends AbstractTest {
 
     @Test
@@ -24,7 +27,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createReadOnlyClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("productName", "productName")
                 .pathParam("helpItemId", "cg")
                 .get()
@@ -44,7 +47,7 @@ class HelpsV1RestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createReadOnlyClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("productName", "does-not-exists")
                 .pathParam("helpItemId", "cg")
                 .get()
