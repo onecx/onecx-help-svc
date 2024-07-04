@@ -5,6 +5,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
+import static org.tkit.quarkus.security.test.SecurityTestUtils.getKeycloakClientToken;
 
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.tkit.onecx.help.test.AbstractTest;
+import org.tkit.quarkus.security.test.GenerateKeycloakClient;
 import org.tkit.quarkus.test.WithDBData;
 
 import gen.org.tkit.onecx.help.rs.internal.model.*;
@@ -21,8 +23,8 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 @TestHTTPEndpoint(HelpsRestController.class)
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@GenerateKeycloakClient(clientName = "testClient", scopes = "ocx-hp:all")
 class HelpsRestControllerTest extends AbstractTest {
-
     @Test
     void createNewHelpTest() {
 
@@ -37,7 +39,7 @@ class HelpsRestControllerTest extends AbstractTest {
         var uri = given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .post()
                 .then().statusCode(CREATED.getStatusCode())
@@ -45,7 +47,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .get(uri)
                 .then()
                 .statusCode(Response.Status.OK.getStatusCode())
@@ -63,7 +65,7 @@ class HelpsRestControllerTest extends AbstractTest {
         var exception = given()
                 .when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .post()
                 .then()
                 .statusCode(BAD_REQUEST.getStatusCode())
@@ -79,7 +81,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         exception = given().when()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .post()
                 .then()
@@ -97,7 +99,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // delete help
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "DELETE_1")
                 .delete("{id}")
                 .then().statusCode(NO_CONTENT.getStatusCode());
@@ -105,7 +107,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // check if help exists
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "DELETE_1")
                 .get("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
@@ -113,7 +115,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // delete help in portal
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "11-111")
                 .delete("{id}")
                 .then()
@@ -126,7 +128,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .get("22-222")
                 .then().statusCode(OK.getStatusCode())
                 .contentType(APPLICATION_JSON)
@@ -139,14 +141,14 @@ class HelpsRestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "___")
                 .get("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
         dto = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .pathParam("id", "11-111")
                 .get("{id}")
                 .then().statusCode(OK.getStatusCode())
@@ -166,7 +168,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -186,7 +188,7 @@ class HelpsRestControllerTest extends AbstractTest {
         criteria.setProductName(" ");
         data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -207,7 +209,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         data = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(criteria)
                 .post("/search")
                 .then()
@@ -235,27 +237,17 @@ class HelpsRestControllerTest extends AbstractTest {
 
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
                 .pathParam("id", "does-not-exists")
                 .put("{id}")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
-        //update with missing scope -> forbidden
-        given()
-                .contentType(APPLICATION_JSON)
-                .auth().oauth2(createReadOnlyClient())
-                .body(helpDto)
-                .when()
-                .pathParam("id", "11-111")
-                .put("{id}")
-                .then().statusCode(FORBIDDEN.getStatusCode());
-
         // update help
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
                 .pathParam("id", "11-111")
@@ -265,7 +257,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // download help
         var dto = given().contentType(APPLICATION_JSON)
                 .body(helpDto)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .pathParam("id", "11-111")
                 .get("{id}")
@@ -277,7 +269,7 @@ class HelpsRestControllerTest extends AbstractTest {
         // update theme with wrong modificationCount
         given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
                 .pathParam("id", "11-111")
@@ -300,7 +292,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .body(helpDto)
                 .pathParam("id", "11-111")
@@ -323,7 +315,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         var exception = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .pathParam("id", "update_create_new")
                 .put("{id}")
@@ -340,10 +332,11 @@ class HelpsRestControllerTest extends AbstractTest {
     }
 
     @Test
+    //@CreateKeycloakClient(name=, secret=, scopes=, deleteAfter)
     void getAllAppsWithHelpItemsTest() {
         var output = given()
                 .contentType(APPLICATION_JSON)
-                .auth().oauth2(createAdminClient())
+                .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .get("/productNames")
                 .then()

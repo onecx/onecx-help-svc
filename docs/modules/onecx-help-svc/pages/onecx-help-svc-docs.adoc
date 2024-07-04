@@ -29,7 +29,6 @@ tkit.rs.context.tenant-id.enabled=true
 %prod.quarkus.datasource.jdbc.url=${DB_URL:jdbc:postgresql://postgresdb:5432/onecx-help?sslmode=disable}
 %prod.quarkus.datasource.username=${DB_USER:onecx-help}
 %prod.quarkus.datasource.password=${DB_PWD:onecx-help}
-quarkus.keycloak.devservices.realm-path=./src/test/resources/test-realm.json
 ----
 ====
 
@@ -67,7 +66,23 @@ app:
 
 ----
 
-urce,yaml]
+tScopes: [ ocx-tn:read ]
+
+----
+
+tainer
+
+{docker-registry}[Docker registry]
+
+
+=== Helm
+
+{helm-registry}[Helm registry]
+
+Default values
+
+.{helm-file}
+[source,yaml]
 ----
 app:
   name: svc
@@ -75,5 +90,21 @@ app:
     repository: "onecx/onecx-help-svc"
   db:
     enabled: true
+  operator:
+    keycloak:
+      client:
+        enabled: true
+        spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-tn:read ]
+
+----
+
+d ]
+
+----
+
+ead ]
+
 ----
 
