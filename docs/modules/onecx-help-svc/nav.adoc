@@ -1,1 +1,1 @@
-* xref:onecx-help-svc:index.adoc[Help Backend Service]
+* xref:onecx-help-svc:index.adoc[Backend Service]
