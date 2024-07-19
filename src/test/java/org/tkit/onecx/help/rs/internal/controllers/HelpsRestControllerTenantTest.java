@@ -194,7 +194,7 @@ class HelpsRestControllerTenantTest extends AbstractTest {
 
     @Test
     void getHelpsNoTenantTest() {
-        var data = given()
+        given()
                 .contentType(APPLICATION_JSON)
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .get()
@@ -236,8 +236,8 @@ class HelpsRestControllerTenantTest extends AbstractTest {
                 .as(HelpPageResultDTO.class);
 
         assertThat(data).isNotNull();
-        assertThat(data.getTotalElements()).isEqualTo(0);
-        assertThat(data.getStream()).isNotNull().hasSize(0);
+        assertThat(data.getTotalElements()).isZero();
+        assertThat(data.getStream()).isNotNull().isEmpty();
 
         criteria.setItemId("cg");
         data = given()
