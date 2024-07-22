@@ -14,8 +14,11 @@ import jakarta.ws.rs.core.UriInfo;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import org.tkit.onecx.help.domain.daos.HelpDAO;
+import org.tkit.onecx.help.domain.daos.ProductResourceDAO;
 import org.tkit.onecx.help.rs.internal.mappers.ExceptionMapper;
 import org.tkit.onecx.help.rs.internal.mappers.HelpMapper;
+import org.tkit.quarkus.jpa.daos.Page;
+import org.tkit.quarkus.jpa.daos.PageResult;
 import org.tkit.quarkus.jpa.exceptions.ConstraintException;
 import org.tkit.quarkus.log.cdi.LogService;
 
@@ -41,11 +44,20 @@ public class HelpsRestController implements HelpsInternalApi {
     @Context
     UriInfo uriInfo;
 
+    @Inject
+    ProductResourceDAO productResourceDAO;
+
     @Override
-    @Transactional
     public Response createNewHelp(CreateHelpDTO createHelpDTO) {
+        var pr = productResourceDAO.findByProductNameAndItemId(createHelpDTO.getProductName(), createHelpDTO.getItemId());
+        if (pr == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
         var help = mapper.create(createHelpDTO);
+        help.setProductResource(pr);
         help = dao.create(help);
+
         return Response
                 .created(uriInfo.getAbsolutePathBuilder().path(help.getId()).build())
                 .entity(mapper.map(help))
@@ -53,7 +65,6 @@ public class HelpsRestController implements HelpsInternalApi {
     }
 
     @Override
-    @Transactional
     public Response deleteHelp(String id) {
         dao.deleteQueryById(id);
         return Response.noContent().build();
@@ -61,14 +72,14 @@ public class HelpsRestController implements HelpsInternalApi {
 
     @Override
     public Response getAllProductsWithHelpItems() {
-        var productNames = dao.findProductsWithHelpItems();
+        var productNames = productResourceDAO.findProductsWithHelpItems();
         var result = mapper.map(productNames);
         return Response.ok(result).build();
     }
 
     @Override
     public Response getHelpById(String id) {
-        var help = dao.findById(id);
+        var help = dao.loadById(id);
         if (help == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -78,20 +89,30 @@ public class HelpsRestController implements HelpsInternalApi {
     @Override
     public Response searchHelps(HelpSearchCriteriaDTO helpSearchCriteriaDTO) {
         var criteria = mapper.map(helpSearchCriteriaDTO);
-        var result = dao.findHelpsByCriteria(criteria);
+
+        var items = dao.findHelpsByCriteria(criteria);
+        var list = items.getStream().toList();
+
+        var result = new PageResult<>(items.getTotalElements(), list.stream(),
+                Page.of(criteria.getPageNumber(), criteria.getPageSize()));
+
         return Response.ok(mapper.mapPage(result)).build();
     }
 
     @Override
-    @Transactional
     public Response updateHelp(String id, UpdateHelpDTO updateHelpDTO) {
-
         var help = dao.findById(id);
         if (help == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
         mapper.update(updateHelpDTO, help);
+
+        var pr = productResourceDAO.findByProductNameAndItemId(updateHelpDTO.getProductName(), updateHelpDTO.getItemId());
+        if (pr == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        help.setProductResource(pr);
+
         dao.update(help);
         return Response.noContent().build();
     }

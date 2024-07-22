@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-	<!-- HELP -->
-	<HELP guid="11-111" optlock="0" item_id="cg" product_name="productName1" tenant_id="default" context="test1" base_url="test1" resource_url="test1"/>
-	<HELP guid="22-222" optlock="0" item_id="helpWithoutPortal" product_name="productName"  tenant_id="default" context="test2" base_url="test2" resource_url="test2" />
-	<HELP guid="DELETE_1" optlock="0" item_id="toDelete" product_name="productName" tenant_id="default" context="test3" base_url="test3" resource_url="test3" />
+	<PRODUCT_RESOURCE guid="p1" optlock="0" item_id="cg" product_name="productName1" />
+	<PRODUCT_RESOURCE guid="p11" optlock="0" item_id="cg" product_name="productName" />
+	<PRODUCT_RESOURCE guid="p2" optlock="0" item_id="helpWithoutPortal" product_name="productName" />
+	<PRODUCT_RESOURCE guid="p3" optlock="0"  item_id="toDelete" product_name="productName" />
+	<PRODUCT_RESOURCE guid="p4" optlock="0"  item_id="test01" product_name="productName" />
 
 	<!-- HELP -->
-	<HELP guid="T_11-111" optlock="0" item_id="cg" product_name="productName" tenant_id="tenant-100" />
-	<HELP guid="T_22-222" optlock="0" item_id="helpWithoutPortal" product_name="productName" tenant_id="tenant-100" />
-	<HELP guid="T_DELETE_1" optlock="0" item_id="toDelete" product_name="productName" tenant_id="tenant-200" />
+	<HELP guid="11-111" optlock="0" resource_ref_id="p1" tenant_id="default" context="test1" base_url="test1" resource_url="test1"/>
+	<HELP guid="22-222" optlock="0" resource_ref_id="p2" tenant_id="default" context="test2" base_url="test2" resource_url="test2" />
+	<HELP guid="DELETE_1" optlock="0" resource_ref_id="p3" tenant_id="default" context="test3" base_url="test3" resource_url="test3" />
+
+	<!-- HELP -->
+	<HELP guid="T_11-111" optlock="0" resource_ref_id="p11" tenant_id="tenant-100" />
+	<HELP guid="T_22-222" optlock="0" resource_ref_id="p2" tenant_id="tenant-100" />
+	<HELP guid="T_DELETE_1" optlock="0" resource_ref_id="p3" tenant_id="tenant-200" />
 
 </dataset>

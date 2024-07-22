@@ -21,10 +21,11 @@ quarkus.hibernate-orm.jdbc.timezone=UTC
 quarkus.liquibase.migrate-at-start=true
 quarkus.liquibase.validate-on-migrate=true
 tkit.dataimport.enabled=false
-tkit.dataimport.configurations.help.file=dev-data.import.json
-tkit.dataimport.configurations.help.metadata.operation=CLEAN_INSERT
-tkit.dataimport.configurations.help.enabled=false
-tkit.dataimport.configurations.help.stop-at-error=true
+tkit.dataimport.configurations.template.file=import/template.json
+tkit.dataimport.configurations.template.metadata.tenants=default
+tkit.dataimport.configurations.template.class-path=true
+tkit.dataimport.configurations.template.enabled=false
+tkit.dataimport.configurations.template.stop-at-error=true
 tkit.rs.context.tenant-id.enabled=true
 %prod.quarkus.datasource.jdbc.url=${DB_URL:jdbc:postgresql://postgresdb:5432/onecx-help?sslmode=disable}
 %prod.quarkus.datasource.username=${DB_USER:onecx-help}
@@ -61,6 +62,12 @@ app:
       client:
         enabled: true
         spec:
+          kcConfig:
+            defaultClientScopes: [ ocx-tn:read ]
+
+----
+
+spec:
           kcConfig:
             defaultClientScopes: [ ocx-tn:read ]
 

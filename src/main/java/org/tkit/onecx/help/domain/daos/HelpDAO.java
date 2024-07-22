@@ -1,20 +1,21 @@
 package org.tkit.onecx.help.domain.daos;
 
+import static jakarta.transaction.Transactional.TxType.NOT_SUPPORTED;
 import static org.tkit.quarkus.jpa.utils.QueryCriteriaUtil.addSearchStringPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 import org.tkit.onecx.help.domain.criteria.HelpSearchCriteria;
 import org.tkit.onecx.help.domain.models.Help;
 import org.tkit.onecx.help.domain.models.Help_;
+import org.tkit.onecx.help.domain.models.ProductResource_;
 import org.tkit.quarkus.jpa.daos.AbstractDAO;
 import org.tkit.quarkus.jpa.daos.Page;
 import org.tkit.quarkus.jpa.daos.PageResult;
@@ -25,6 +26,34 @@ import org.tkit.quarkus.jpa.models.TraceableEntity_;
 @ApplicationScoped
 @Transactional(Transactional.TxType.NOT_SUPPORTED)
 public class HelpDAO extends AbstractDAO<Help> {
+
+    public Help loadById(Object id) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            var root = cq.from(Help.class);
+            cq.where(cb.equal(root.get(TraceableEntity_.ID), id));
+
+            return this.getEntityManager().createQuery(cq).setHint(HINT_LOAD_GRAPH,
+                    this.getEntityManager().getEntityGraph(Help.HELP_FULL)).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_LOAD_BY_ID, ex);
+        }
+    }
+
+    public Stream<Help> loadAll() {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            cq.from(Help.class);
+            return this.getEntityManager().createQuery(cq).setHint(HINT_LOAD_GRAPH,
+                    this.getEntityManager().getEntityGraph(Help.HELP_FULL)).getResultStream();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_LOAD_ALL, ex);
+        }
+    }
 
     // https://hibernate.atlassian.net/browse/HHH-16830#icft=HHH-16830
     @Override
@@ -49,8 +78,10 @@ public class HelpDAO extends AbstractDAO<Help> {
             var root = cq.from(Help.class);
 
             List<Predicate> predicates = new ArrayList<>();
-            addSearchStringPredicate(predicates, cb, root.get(Help_.itemId), criteria.getItemId());
-            addSearchStringPredicate(predicates, cb, root.get(Help_.productName), criteria.getProductName());
+            addSearchStringPredicate(predicates, cb, root.get(Help_.productResource).get(ProductResource_.itemId),
+                    criteria.getItemId());
+            addSearchStringPredicate(predicates, cb, root.get(Help_.productResource).get(ProductResource_.productName),
+                    criteria.getProductName());
             addSearchStringPredicate(predicates, cb, root.get(Help_.context), criteria.getContext());
             addSearchStringPredicate(predicates, cb, root.get(Help_.baseUrl), criteria.getBaseUrl());
             addSearchStringPredicate(predicates, cb, root.get(Help_.resourceUrl), criteria.getResourceUrl());
@@ -70,33 +101,23 @@ public class HelpDAO extends AbstractDAO<Help> {
             var cq = cb.createQuery(Help.class);
             var root = cq.from(Help.class);
             cq.where(cb.and(
-                    cb.equal(root.get(Help_.productName), productName),
-                    cb.equal(root.get(Help_.itemId), itemId)));
-            return this.getEntityManager().createQuery(cq).getSingleResult();
+                    cb.equal(root.get(Help_.productResource).get(ProductResource_.productName), productName),
+                    cb.equal(root.get(Help_.productResource).get(ProductResource_.itemId), itemId)));
+
+            return this.getEntityManager().createQuery(cq).setHint(HINT_LOAD_GRAPH,
+                    this.getEntityManager().getEntityGraph(Help.HELP_FULL)).getSingleResult();
         } catch (NoResultException ne) {
             return null;
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID, ex);
-        }
-
-    }
-
-    public List<String> findProductsWithHelpItems() {
-        try {
-            var cb = getEntityManager().getCriteriaBuilder();
-            CriteriaQuery<String> cq = cb.createQuery(String.class);
-            Root<Help> root = cq.from(Help.class);
-            cq.select(root.get(Help_.PRODUCT_NAME)).distinct(true);
-            return getEntityManager().createQuery(cq).getResultList();
-        } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS, ex);
+            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID, ex, productName, itemId);
         }
     }
 
     public enum ErrorKeys {
 
+        ERROR_LOAD_ALL,
+        ERROR_LOAD_BY_ID,
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID,
-        ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS
     }
 }

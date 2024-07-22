@@ -5,5 +5,5 @@
 
     <include relativeToChangelogFile="true" file="v1/2023-12-01-create-tables.xml"/>
     <include relativeToChangelogFile="true" file="v1/2023-12-01-data-import-log.xml"/>
-
+    <include relativeToChangelogFile="true" file="v1/2024-19-07-refactoring-model.xml"/>
 </databaseChangeLog>

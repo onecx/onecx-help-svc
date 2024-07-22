@@ -11,14 +11,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@NamedEntityGraph(name = Help.HELP_FULL, includeAllAttributes = true)
 @Table(name = "HELP", uniqueConstraints = {
-        @UniqueConstraint(name = "HELP_ITEM_ID", columnNames = { "ITEM_ID", "PRODUCT_NAME", "TENANT_ID" })
+        @UniqueConstraint(name = "HELP_TENANT_ID", columnNames = { "RESOURCE_REF_ID", "TENANT_ID" })
 })
 @SuppressWarnings("java:S2160")
 public class Help extends TraceableEntity {
 
-    @Column(name = "ITEM_ID")
-    private String itemId;
+    public static final String HELP_FULL = "help_full";
+
+    @Column(name = "RESOURCE_REF_ID", insertable = false, updatable = false)
+    private String resourceRefId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "RESOURCE_REF_ID", foreignKey = @ForeignKey(name = "HELP_RESOURCE_REF_CONSTRAINTS"))
+    private ProductResource productResource;
 
     @TenantId
     @Column(name = "TENANT_ID")
@@ -33,7 +40,14 @@ public class Help extends TraceableEntity {
     @Column(name = "RESOURCE_URL")
     private String resourceUrl;
 
-    @Column(name = "PRODUCT_NAME")
-    private String productName;
+    /**
+     * Flag to identify permissions created by an operator
+     */
+    @Column(name = "OPERATOR")
+    private Boolean operator;
 
+    @PostPersist
+    void postPersist() {
+        resourceRefId = productResource.getId();
+    }
 }

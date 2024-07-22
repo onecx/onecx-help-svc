@@ -1,23 +1,19 @@
 {
   "helps": {
-    "0000": {},
-    "default": {
+    "product0": {},
+    "product1": {
       "Help1": {
-        "productName": "product1",
         "resourceUrl": "r1"
       },
       "Help2": {
-        "productName": "product1",
         "resourceUrl": "r1"
       }
     },
-    "9999": {
+    "product2": {
       "Help1": {
-        "productName": "product1",
         "resourceUrl": "r1"
       },
       "Help2": {
-        "productName": "product2",
         "resourceUrl": "r1"
       }
     }

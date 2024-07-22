@@ -14,9 +14,9 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-class HelpDAOTest {
+class ProductResourceDAOTest {
     @Inject
-    HelpDAO dao;
+    ProductResourceDAO dao;
 
     @InjectMock
     EntityManager em;
@@ -28,16 +28,11 @@ class HelpDAOTest {
 
     @Test
     void methodExceptionTests() {
-        methodExceptionTests(() -> dao.loadById(null),
-                HelpDAO.ErrorKeys.ERROR_LOAD_BY_ID);
-        methodExceptionTests(() -> dao.loadAll(),
-                HelpDAO.ErrorKeys.ERROR_LOAD_ALL);
-        methodExceptionTests(() -> dao.findById(null),
-                HelpDAO.ErrorKeys.FIND_ENTITY_BY_ID_FAILED);
-        methodExceptionTests(() -> dao.findHelpsByCriteria(null),
-                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
         methodExceptionTests(() -> dao.findByProductNameAndItemId(null, null),
-                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
+                ProductResourceDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
+        methodExceptionTests(() -> dao.findProductsWithHelpItems(),
+                ProductResourceDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS);
+
     }
 
     void methodExceptionTests(Executable fn, Enum<?> key) {

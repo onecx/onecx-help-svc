@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
+	<PRODUCT_RESOURCE guid="p1" optlock="0" item_id="cg" product_name="productName" />
+	<PRODUCT_RESOURCE guid="p2" optlock="0" item_id="helpWithoutPortal" product_name="productName" />
+	<PRODUCT_RESOURCE guid="p3" optlock="0"  item_id="toDelete" product_name="productName" />
+
 	<!-- HELP -->
-	<HELP guid="11-111" optlock="0" item_id="cg" product_name="productName" tenant_id="default" />
-	<HELP guid="22-222" optlock="0" item_id="helpWithoutPortal" product_name="productName"  tenant_id="default" />
-	<HELP guid="DELETE_1" optlock="0" item_id="toDelete" product_name="productName" tenant_id="default" />
+	<HELP guid="11-111" optlock="0" resource_ref_id="p1" tenant_id="default" />
+	<HELP guid="22-222" optlock="0" resource_ref_id="p2" tenant_id="default" />
+	<HELP guid="DELETE_1" optlock="0"  resource_ref_id="p3" tenant_id="default" />
 
 </dataset>

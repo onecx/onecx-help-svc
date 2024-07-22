@@ -25,6 +25,27 @@ import io.quarkus.test.junit.QuarkusTest;
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 @GenerateKeycloakClient(clientName = "testClient", scopes = "ocx-hp:all")
 class HelpsRestControllerTest extends AbstractTest {
+
+    @Test
+    void createNewHelpWrongItemTest() {
+
+        // create help
+        var helpDto = new CreateHelpDTO();
+        helpDto.setItemId("does-not-exists");
+        helpDto.setProductName("productName");
+        helpDto.setContext("context");
+        helpDto.setResourceUrl("resource/url");
+        helpDto.setBaseUrl("base/url");
+
+        given()
+                .when()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .body(helpDto)
+                .post()
+                .then().statusCode(NOT_FOUND.getStatusCode());
+    }
+
     @Test
     void createNewHelpTest() {
 
@@ -90,7 +111,7 @@ class HelpsRestControllerTest extends AbstractTest {
 
         assertThat(exception.getErrorCode()).isEqualTo("PERSIST_ENTITY_FAILED");
         assertThat(exception.getDetail()).isEqualTo(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(cg, productName1, default) already exists.]");
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_tenant_id'  Detail: Key (resource_ref_id, tenant_id)=(p1, default) already exists.]");
     }
 
     @Test
@@ -227,21 +248,37 @@ class HelpsRestControllerTest extends AbstractTest {
     }
 
     @Test
-    void updateHelpTest() {
+    void updateHelpWrongItemTest() {
 
         // update none existing help
         var helpDto = new UpdateHelpDTO();
         helpDto.setModificationCount(0);
-        helpDto.setItemId("test01");
-        helpDto.setContext("context-update");
+        helpDto.itemId("does-not-exists").productName("does-not-exists").context("context-update");
 
         given()
                 .contentType(APPLICATION_JSON)
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
-                .pathParam("id", "does-not-exists")
-                .put("{id}")
+                .put("11-111")
+                .then().statusCode(NOT_FOUND.getStatusCode());
+
+    }
+
+    @Test
+    void updateHelpTest() {
+
+        // update none existing help
+        var helpDto = new UpdateHelpDTO();
+        helpDto.setModificationCount(0);
+        helpDto.itemId("cg").productName("productName1").context("context-update");
+
+        given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .body(helpDto)
+                .when()
+                .put("does-not-exists")
                 .then().statusCode(NOT_FOUND.getStatusCode());
 
         // update help
@@ -250,8 +287,7 @@ class HelpsRestControllerTest extends AbstractTest {
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
-                .pathParam("id", "11-111")
-                .put("{id}")
+                .put("11-111")
                 .then().statusCode(NO_CONTENT.getStatusCode());
 
         // download help
@@ -259,8 +295,7 @@ class HelpsRestControllerTest extends AbstractTest {
                 .body(helpDto)
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
-                .pathParam("id", "11-111")
-                .get("{id}")
+                .get("11-111")
                 .then().statusCode(OK.getStatusCode())
                 .contentType(APPLICATION_JSON)
                 .extract()
@@ -272,8 +307,7 @@ class HelpsRestControllerTest extends AbstractTest {
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .body(helpDto)
                 .when()
-                .pathParam("id", "11-111")
-                .put("{id}")
+                .put("11-111")
                 .then().statusCode(BAD_REQUEST.getStatusCode());
 
         assertThat(dto).isNotNull();
@@ -304,7 +338,7 @@ class HelpsRestControllerTest extends AbstractTest {
         Assertions.assertNotNull(exception);
         Assertions.assertEquals("MERGE_ENTITY_FAILED", exception.getErrorCode());
         Assertions.assertEquals(
-                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_item_id'  Detail: Key (item_id, product_name, tenant_id)=(helpWithoutPortal, productName, default) already exists.]",
+                "could not execute statement [ERROR: duplicate key value violates unique constraint 'help_tenant_id'  Detail: Key (resource_ref_id, tenant_id)=(p2, default) already exists.]",
                 exception.getDetail());
         Assertions.assertTrue(exception.getInvalidParams().isEmpty());
 
@@ -343,7 +377,8 @@ class HelpsRestControllerTest extends AbstractTest {
                 .statusCode(OK.getStatusCode())
                 .extract().as(HelpProductNamesDTO.class);
         Assertions.assertNotNull(output);
-        Assertions.assertEquals(2, output.getProductNames().size());
-        Assertions.assertEquals("productName", output.getProductNames().get(0));
+        assertThat(output).isNotNull();
+        assertThat(output.getProductNames()).isNotNull().hasSize(2).containsOnly("productName", "productName1");
+
     }
 }
