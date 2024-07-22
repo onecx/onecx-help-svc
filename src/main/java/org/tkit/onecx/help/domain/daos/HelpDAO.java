@@ -1,6 +1,5 @@
 package org.tkit.onecx.help.domain.daos;
 
-import static jakarta.transaction.Transactional.TxType.NOT_SUPPORTED;
 import static org.tkit.quarkus.jpa.utils.QueryCriteriaUtil.addSearchStringPredicate;
 
 import java.util.ArrayList;

@@ -33,7 +33,7 @@ public class ProductResourceDAO extends AbstractDAO<ProductResource> {
         }
     }
 
-    public List<String> findProductsWithHelpItems() {
+    public List<String> findAllProductNames() {
         try {
             var cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<String> cq = cb.createQuery(String.class);
@@ -41,13 +41,13 @@ public class ProductResourceDAO extends AbstractDAO<ProductResource> {
             cq.select(root.get(ProductResource_.PRODUCT_NAME)).distinct(true);
             return getEntityManager().createQuery(cq).getResultList();
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS, ex);
+            throw new DAOException(ErrorKeys.ERROR_FIND_ALL_PRODUCT_NAMES, ex);
         }
     }
 
     public enum ErrorKeys {
 
         ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID,
-        ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS
+        ERROR_FIND_ALL_PRODUCT_NAMES
     }
 }

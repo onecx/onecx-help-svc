@@ -16,6 +16,7 @@ import lombok.Setter;
 @Table(name = "PRODUCT_RESOURCE", uniqueConstraints = {
         @UniqueConstraint(name = "PRODUCT_RESOURCE_ID", columnNames = { "ITEM_ID", "PRODUCT_NAME" })
 })
+@SuppressWarnings("java:S2160")
 public class ProductResource extends TraceableEntity {
 
     @Column(name = "ITEM_ID")

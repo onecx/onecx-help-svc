@@ -30,8 +30,8 @@ class ProductResourceDAOTest {
     void methodExceptionTests() {
         methodExceptionTests(() -> dao.findByProductNameAndItemId(null, null),
                 ProductResourceDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
-        methodExceptionTests(() -> dao.findProductsWithHelpItems(),
-                ProductResourceDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS);
+        methodExceptionTests(() -> dao.findAllProductNames(),
+                ProductResourceDAO.ErrorKeys.ERROR_FIND_ALL_PRODUCT_NAMES);
 
     }
 

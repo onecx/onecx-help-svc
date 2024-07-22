@@ -72,7 +72,7 @@ public class HelpsRestController implements HelpsInternalApi {
 
     @Override
     public Response getAllProductsWithHelpItems() {
-        var productNames = productResourceDAO.findProductsWithHelpItems();
+        var productNames = productResourceDAO.findAllProductNames();
         var result = mapper.map(productNames);
         return Response.ok(result).build();
     }

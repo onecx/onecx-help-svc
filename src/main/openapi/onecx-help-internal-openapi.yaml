@@ -7,7 +7,94 @@ servers:
   - url: "http://onecx-help-svc:8080"
 tags:
   - name: helpsInternal
+  - name: productResourceInternal
 paths:
+  /internal/product/resources:
+    post:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:write ]
+      tags:
+        - productResourceInternal
+      description: Create new product resource
+      operationId: createProductResource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductResource'
+      responses:
+        201:
+          description: New product resource created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResource'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    get:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:read ]
+      tags:
+        - productResourceInternal
+      summary: Get all product resources
+      operationId: getAllProductResources
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResourceItems'
+  /internal/product/resources/{id}:
+    get:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:read ]
+      tags:
+        - productResourceInternal
+      description: Return product resource by ID
+      operationId: getProductResource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResource'
+        "404":
+          description: Not found
+    delete:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:delete ]
+      tags:
+        - productResourceInternal
+      description: Delete product resource by ID
+      operationId: deleteProductResource
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Product resource deleted
   /internal/helps:
     post:
       security:
@@ -213,6 +300,55 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Help'
+    CreateProductResource:
+      type: object
+      required:
+        - itemId
+        - productName
+      properties:
+        itemId:
+          type: string
+        productName:
+          type: string
+    ProductResource:
+      type: object
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        creationUser:
+          type: string
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationUser:
+          type: string
+        id:
+          type: string
+        itemId:
+          type: string
+        productName:
+          type: string
+        operator:
+          type: boolean
+          default: false
+    ProductResourceItems:
+      type: object
+      properties:
+        stream:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResourceItem'
+    ProductResourceItem:
+      type: object
+      properties:
+        productName:
+          type: string
+        itemIds:
+          type: array
+          items:
+            type: string
     Help:
       type: object
       properties:
