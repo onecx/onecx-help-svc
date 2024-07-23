@@ -41,6 +41,16 @@ public interface HelpMapper {
     @Mapping(target = "creationUser", ignore = true)
     @Mapping(target = "modificationDate", ignore = true)
     @Mapping(target = "modificationUser", ignore = true)
+    @Mapping(target = "modificationCount", ignore = true)
+    @Mapping(target = "context", ignore = true)
+    @Mapping(target = "resourceUrl", ignore = true)
+    HelpDTO createDefault(String productName, String itemId, String baseUrl);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "creationUser", ignore = true)
+    @Mapping(target = "modificationDate", ignore = true)
+    @Mapping(target = "modificationUser", ignore = true)
     @Mapping(target = "controlTraceabilityManual", ignore = true)
     @Mapping(target = "persisted", ignore = true)
     @Mapping(target = "tenantId", ignore = true)

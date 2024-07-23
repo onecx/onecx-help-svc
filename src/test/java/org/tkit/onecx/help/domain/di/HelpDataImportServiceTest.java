@@ -49,7 +49,7 @@ class HelpDataImportServiceTest extends AbstractTest {
         service.importData(config);
 
         List<Help> data = dao.findAll().toList();
-        assertThat(data).isNotNull().hasSize(3);
+        assertThat(data).isNotNull().hasSize(4);
 
     }
 

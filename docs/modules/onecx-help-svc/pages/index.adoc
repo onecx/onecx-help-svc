@@ -4,5 +4,7 @@ include::onecx-help-svc-attributes.adoc[opts=optional]
 
 include::docs.adoc[opts=optional]
 
+=== Configuration
+include::onecx-help-svc.adoc[opts=optional]
 
 include::onecx-help-svc-docs.adoc[opts=optional]

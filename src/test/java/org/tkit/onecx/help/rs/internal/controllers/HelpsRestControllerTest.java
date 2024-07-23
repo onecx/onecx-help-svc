@@ -178,8 +178,8 @@ class HelpsRestControllerTest extends AbstractTest {
                 .as(HelpPageResultDTO.class);
 
         assertThat(data).isNotNull();
-        assertThat(data.getTotalElements()).isEqualTo(3);
-        assertThat(data.getStream()).isNotNull().hasSize(3);
+        assertThat(data.getTotalElements()).isEqualTo(4);
+        assertThat(data.getStream()).isNotNull().hasSize(4);
 
         criteria.setItemId("");
         criteria.setResourceUrl(" ");
@@ -198,8 +198,8 @@ class HelpsRestControllerTest extends AbstractTest {
                 .as(HelpPageResultDTO.class);
 
         assertThat(data).isNotNull();
-        assertThat(data.getTotalElements()).isEqualTo(3);
-        assertThat(data.getStream()).isNotNull().hasSize(3);
+        assertThat(data.getTotalElements()).isEqualTo(4);
+        assertThat(data.getStream()).isNotNull().hasSize(4);
 
         criteria.setItemId("cg");
         criteria.setResourceUrl("test1");
@@ -343,7 +343,54 @@ class HelpsRestControllerTest extends AbstractTest {
                 .statusCode(OK.getStatusCode())
                 .extract().as(HelpProductNamesDTO.class);
         Assertions.assertNotNull(output);
-        Assertions.assertEquals(2, output.getProductNames().size());
-        Assertions.assertEquals("productName", output.getProductNames().get(0));
+        Assertions.assertEquals(3, output.getProductNames().size());
+        assertThat(output.getProductNames()).contains("productName");
+    }
+
+    @Test
+    void searchHelpItemByProductNameAndItemIdTest() {
+
+        var data = given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .get("productName1/cg")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(HelpDTO.class);
+
+        assertThat(data).isNotNull();
+        Assertions.assertEquals("productName1", data.getProductName());
+        Assertions.assertEquals("cg", data.getItemId());
+    }
+
+    @Test
+    void searchByProductNameAndItemIdNoFoundTest() {
+
+        given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .get("does-not-exists/cg")
+                .then()
+                .statusCode(NOT_FOUND.getStatusCode());
+    }
+
+    @Test
+    void searchHelpItemByProductNameAndItemIdProductUrlTest() {
+
+        var data = given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .get("no-page-product/cg")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(HelpDTO.class);
+
+        assertThat(data).isNotNull();
+        Assertions.assertEquals("no-page-product", data.getProductName());
+        Assertions.assertEquals("PRODUCT_BASE_DOC_URL", data.getItemId());
     }
 }

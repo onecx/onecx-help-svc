@@ -8,6 +8,36 @@ servers:
 tags:
   - name: helpsInternal
 paths:
+  /internal/helps/{productName}/{helpItemId}:
+    get:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:read ]
+      tags:
+        - helpsInternal
+      description: search help item by product name and item id
+      operationId: getHelpByProductNameItemId
+      parameters:
+        - name: productName
+          in: path
+          required: true
+          description: product name
+          schema:
+            type: string
+        - name: helpItemId
+          in: path
+          required: true
+          description: help item ID
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Help'
+        404:
+          description: Help not found
   /internal/helps:
     post:
       security:

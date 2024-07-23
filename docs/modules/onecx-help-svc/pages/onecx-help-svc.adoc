@@ -1,0 +1,63 @@
+
+:summaryTableId: onecx-help-svc
+[.configuration-legend]
+icon:lock[title=Fixed at build time] Configuration property fixed at build time - All other configuration properties are overridable at runtime
+[.configuration-reference.searchable, cols="80,.^10,.^10"]
+|===
+
+h|[[onecx-help-svc_configuration]]link:#onecx-help-svc_configuration[Configuration property]
+
+h|Type
+h|Default
+
+a| [[onecx-help-svc_onecx-help-default-enabled]]`link:#onecx-help-svc_onecx-help-default-enabled[onecx.help.default.enabled]`
+
+
+[.description]
+--
+Enable or disable default help
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++ONECX_HELP_DEFAULT_ENABLED+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++ONECX_HELP_DEFAULT_ENABLED+++`
+endif::add-copy-button-to-env-var[]
+--|boolean 
+|`false`
+
+
+a| [[onecx-help-svc_onecx-help-default-url]]`link:#onecx-help-svc_onecx-help-default-url[onecx.help.default.url]`
+
+
+[.description]
+--
+Default help URL
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++ONECX_HELP_DEFAULT_URL+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++ONECX_HELP_DEFAULT_URL+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`https://github.com/onecx`
+
+
+a| [[onecx-help-svc_onecx-help-product-item-id]]`link:#onecx-help-svc_onecx-help-product-item-id[onecx.help.product-item-id]`
+
+
+[.description]
+--
+Default help URL
+
+ifdef::add-copy-button-to-env-var[]
+Environment variable: env_var_with_copy_button:+++ONECX_HELP_PRODUCT_ITEM_ID+++[]
+endif::add-copy-button-to-env-var[]
+ifndef::add-copy-button-to-env-var[]
+Environment variable: `+++ONECX_HELP_PRODUCT_ITEM_ID+++`
+endif::add-copy-button-to-env-var[]
+--|string 
+|`PRODUCT_BASE_DOC_URL`
+
+|===
