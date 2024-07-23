@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.UriInfo;
 
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
+import org.tkit.onecx.help.domain.config.HelpConfig;
 import org.tkit.onecx.help.domain.daos.HelpDAO;
 import org.tkit.onecx.help.rs.internal.mappers.ExceptionMapper;
 import org.tkit.onecx.help.rs.internal.mappers.HelpMapper;
@@ -40,6 +41,9 @@ public class HelpsRestController implements HelpsInternalApi {
 
     @Context
     UriInfo uriInfo;
+
+    @Inject
+    HelpConfig config;
 
     @Override
     @Transactional
@@ -94,6 +98,25 @@ public class HelpsRestController implements HelpsInternalApi {
         mapper.update(updateHelpDTO, help);
         dao.update(help);
         return Response.noContent().build();
+    }
+
+    @Override
+    public Response getHelpByProductNameItemId(String productName, String helpItemId) {
+        var help = dao.findByProductNameAndItemId(productName, helpItemId);
+        if (help != null) {
+            return Response.ok(mapper.map(help)).build();
+        }
+
+        help = dao.findByProductNameAndItemId(productName, config.productItemId());
+        if (help != null) {
+            return Response.ok(mapper.map(help)).build();
+        }
+
+        if (config.defaultHelpEnabled()) {
+            return Response.ok(mapper.createDefault(productName, helpItemId, config.defaultHelpUrl())).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @ServerExceptionMapper
