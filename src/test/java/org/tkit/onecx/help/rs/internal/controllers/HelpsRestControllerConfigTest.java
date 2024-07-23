@@ -28,7 +28,7 @@ import io.smallrye.config.SmallRyeConfig;
 @TestHTTPEndpoint(HelpsRestController.class)
 @WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
 @GenerateKeycloakClient(clientName = "testClient", scopes = "ocx-hp:all")
-public class HelpsRestControllerConfigTest extends AbstractTest {
+class HelpsRestControllerConfigTest extends AbstractTest {
 
     @InjectMock
     HelpConfig helpConfig;
