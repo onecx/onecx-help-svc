@@ -30,6 +30,7 @@ public interface HelpMapper {
     @Mapping(target = "modificationCount", ignore = true)
     @Mapping(target = "persisted", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
+    @Mapping(target = "operator", ignore = true)
     Help create(CreateHelpDTO object);
 
     List<HelpDTO> map(Stream<Help> entity);
@@ -54,6 +55,7 @@ public interface HelpMapper {
     @Mapping(target = "controlTraceabilityManual", ignore = true)
     @Mapping(target = "persisted", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
+    @Mapping(target = "operator", ignore = true)
     void update(UpdateHelpDTO helpDTO, @MappingTarget Help entity);
 
     default HelpProductNamesDTO map(List<String> productNames) {

@@ -19,6 +19,7 @@ public interface DataImportMapperV1 {
     @Mapping(target = "modificationCount", ignore = true)
     @Mapping(target = "persisted", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
+    @Mapping(target = "operator", ignore = true)
     Help create(DataImportHelpDTOV1 dto, String itemId);
 
 }

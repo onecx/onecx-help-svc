@@ -4,6 +4,8 @@ import static org.tkit.quarkus.jpa.utils.QueryCriteriaUtil.addSearchStringPredic
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
@@ -60,7 +62,23 @@ public class HelpDAO extends AbstractDAO<Help> {
             cq.orderBy(cb.desc(root.get(AbstractTraceableEntity_.CREATION_DATE)));
             return createPageQuery(cq, Page.of(criteria.getPageNumber(), criteria.getPageSize())).getPageResult();
         } catch (Exception ex) {
-            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID, ex);
+            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_CRITERIA, ex);
+        }
+    }
+
+    public Stream<Help> findHelpsByProductNames(Set<String> productNames) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            var root = cq.from(Help.class);
+
+            if (productNames != null && !productNames.isEmpty()) {
+                cq.where(root.get(Help_.PRODUCT_NAME).in(productNames));
+            }
+            cq.orderBy(cb.desc(root.get(AbstractTraceableEntity_.CREATION_DATE)));
+            return getEntityManager().createQuery(cq).getResultStream();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_FIND_BY_PRODUCT_NAMES, ex);
         }
     }
 
@@ -95,6 +113,8 @@ public class HelpDAO extends AbstractDAO<Help> {
 
     public enum ErrorKeys {
 
+        ERROR_GET_BY_PRODUCT_CRITERIA,
+        ERROR_FIND_BY_PRODUCT_NAMES,
         FIND_ENTITY_BY_ID_FAILED,
         ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID,
         ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS

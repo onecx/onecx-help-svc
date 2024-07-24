@@ -1,0 +1,160 @@
+---
+openapi: 3.0.3
+info:
+  title: onecx-help exim service
+  version: 1.0.0
+servers:
+  - url: "http://onecx-help:8080"
+tags:
+  - name: helpExportImport
+paths:
+  /exim/v1/help/export:
+    post:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:read ]
+      tags:
+        - helpExportImport
+      description: Export helps by products
+      operationId: exportHelpsByProducts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportHelpsRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpSnapshot'
+        "404":
+          description: No helps found
+  /exim/v1/help/import:
+    post:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:write ]
+      tags:
+        - helpExportImport
+      description: Import helps
+      operationId: importHelps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpSnapshot'
+      responses:
+        "200":
+          description: Import result
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EximProblemDetailResponse'
+  /exim/v1/help/operator:
+    post:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:write ]
+      tags:
+        - helpExportImport
+      description: Import helps
+      operationId: importOperatorHelps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpSnapshot'
+      responses:
+        "200":
+          description: Import successfully workspaces
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EximProblemDetailResponse'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://oauth.simple.api/token
+          scopes:
+            ocx-hp:all: Grants access to all operations
+            ocx-hp:read: Grants read access
+            ocx-hp:write: Grants write access
+  schemas:
+    HelpSnapshot:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 10
+          description: ID of the request
+        created:
+          $ref: '#/components/schemas/OffsetDateTime'
+        helps:
+          type: object
+          nullable: false
+          additionalProperties:
+            $ref: '#/components/schemas/EximHelpProduct'
+    EximHelpProduct:
+      type: object
+      nullable: false
+      additionalProperties:
+        $ref: '#/components/schemas/EximHelp'
+    EximHelp:
+      type: object
+      properties:
+        context:
+          type: string
+        baseUrl:
+          type: string
+        resourceUrl:
+          type: string
+    ExportHelpsRequest:
+      type: object
+      properties:
+        productNames:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+    EximProblemDetailResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        detail:
+          type: string
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/EximProblemDetailParam'
+        invalidParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/EximProblemDetailInvalidParam'
+    EximProblemDetailParam:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    EximProblemDetailInvalidParam:
+      type: object
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10T12:15:50-04:00
