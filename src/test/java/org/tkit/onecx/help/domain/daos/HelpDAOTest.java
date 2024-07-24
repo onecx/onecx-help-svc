@@ -28,10 +28,12 @@ class HelpDAOTest {
 
     @Test
     void methodExceptionTests() {
+        methodExceptionTests(() -> dao.findHelpsByProductNames(null),
+                HelpDAO.ErrorKeys.ERROR_FIND_BY_PRODUCT_NAMES);
         methodExceptionTests(() -> dao.findById(null),
                 HelpDAO.ErrorKeys.FIND_ENTITY_BY_ID_FAILED);
         methodExceptionTests(() -> dao.findHelpsByCriteria(null),
-                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
+                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_CRITERIA);
         methodExceptionTests(() -> dao.findByProductNameAndItemId(null, null),
                 HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
         methodExceptionTests(() -> dao.findProductsWithHelpItems(),

@@ -36,4 +36,6 @@ public class Help extends TraceableEntity {
     @Column(name = "PRODUCT_NAME")
     private String productName;
 
+    @Column(name = "OPERATOR")
+    private Boolean operator;
 }
