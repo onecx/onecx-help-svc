@@ -28,6 +28,8 @@ class HelpDAOTest {
 
     @Test
     void methodExceptionTests() {
+        methodExceptionTests(() -> dao.loadAll(),
+                HelpDAO.ErrorKeys.ERROR_LOAD_ALL);
         methodExceptionTests(() -> dao.findHelpsByProductNames(null),
                 HelpDAO.ErrorKeys.ERROR_FIND_BY_PRODUCT_NAMES);
         methodExceptionTests(() -> dao.findById(null),
