@@ -58,18 +58,16 @@ public class HelpEximRestControllerV1 implements HelpExportImportApi {
         List<Help> create = new ArrayList<>();
         List<Help> update = new ArrayList<>();
 
-        helpSnapshotDTOV1.getHelps().forEach((productName, items) -> {
-            items.forEach((itemId, dto) -> {
-                var id = mapper.id(productName, itemId);
-                var help = map.get(id);
-                if (help == null) {
+        helpSnapshotDTOV1.getHelps().forEach((productName, items) -> items.forEach((itemId, dto) -> {
+            var id = mapper.id(productName, itemId);
+            var help = map.get(id);
+            if (help == null) {
 
-                    create.add(mapper.createHelp(productName, itemId, dto));
-                } else {
-                    update.add(mapper.updateHelp(dto, help));
-                }
-            });
-        });
+                create.add(mapper.createHelp(productName, itemId, dto));
+            } else {
+                update.add(mapper.updateHelp(dto, help));
+            }
+        }));
 
         service.importHelp(create, update);
         return Response.ok().build();

@@ -28,7 +28,7 @@ class HelpEximRestControllerV1Test extends AbstractTest {
 
     @Test
     void exportEmptyRequestHelpsTest() {
-        var dto = given()
+        given()
                 .auth().oauth2(getKeycloakClientToken("testClient"))
                 .when()
                 .contentType(APPLICATION_JSON)
@@ -53,8 +53,7 @@ class HelpEximRestControllerV1Test extends AbstractTest {
         assertThat(dto).isNotNull();
         assertThat(dto.getHelps()).isNotNull().hasSize(3);
         var w = dto.getHelps().get("productName");
-        assertThat(w).isNotNull().hasSize(2);
-        assertThat(w.keySet()).containsOnly("toDelete", "helpWithoutPortal");
+        assertThat(w).isNotNull().containsOnlyKeys("toDelete", "helpWithoutPortal");
 
         request.setProductNames(null);
         dto = given()
@@ -88,8 +87,8 @@ class HelpEximRestControllerV1Test extends AbstractTest {
         assertThat(dto).isNotNull();
         assertThat(dto.getHelps()).isNotNull().hasSize(2);
         var w = dto.getHelps().get("productName");
-        assertThat(w).isNotNull().hasSize(2);
-        assertThat(w.keySet()).containsOnly("toDelete", "helpWithoutPortal");
+        assertThat(w).isNotNull().containsOnlyKeys("toDelete", "helpWithoutPortal");
+
     }
 
     @Test
@@ -136,14 +135,12 @@ class HelpEximRestControllerV1Test extends AbstractTest {
         assertThat(dto).isNotNull();
         assertThat(dto.getHelps()).isNotNull().hasSize(3);
         var w = dto.getHelps().get("productName");
-        assertThat(w).isNotNull().hasSize(2);
-        assertThat(w.keySet()).containsOnly("toDelete", "helpWithoutPortal");
+        assertThat(w).isNotNull().containsOnlyKeys("toDelete", "helpWithoutPortal");
         assertThat(w.get("helpWithoutPortal")).isNotNull();
         assertThat(w.get("helpWithoutPortal").getBaseUrl()).isEqualTo("new-custom-url");
 
         w = dto.getHelps().get("new-product");
-        assertThat(w).isNotNull().hasSize(3);
-        assertThat(w.keySet()).containsOnly("item1", "item2", "item3");
+        assertThat(w).isNotNull().containsOnlyKeys("item1", "item2", "item3");
     }
 
 }
