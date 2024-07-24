@@ -111,8 +111,20 @@ public class HelpDAO extends AbstractDAO<Help> {
         }
     }
 
+    public Stream<Help> loadAll() {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            cq.from(Help.class);
+            return this.getEntityManager().createQuery(cq).getResultStream();
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_LOAD_ALL, ex);
+        }
+    }
+
     public enum ErrorKeys {
 
+        ERROR_LOAD_ALL,
         ERROR_GET_BY_PRODUCT_CRITERIA,
         ERROR_FIND_BY_PRODUCT_NAMES,
         FIND_ENTITY_BY_ID_FAILED,

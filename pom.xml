@@ -221,16 +221,15 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>di-help-v1</id>
+                        <id>di-help-template</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/openapi/di-help-v1.yaml</inputSpec>
-                            <apiPackage>gen.org.tkit.onecx.help.di.v1</apiPackage>
-                            <modelPackage>gen.org.tkit.onecx.help.di.v1.model</modelPackage>
-                            <modelNameSuffix>DTOV1</modelNameSuffix>
-                            <skipValidateSpec>true</skipValidateSpec>
+                            <inputSpec>src/main/openapi/onecx-di-help-template.yaml</inputSpec>
+                            <apiPackage>gen.org.tkit.onecx.help.di.template</apiPackage>
+                            <modelPackage>gen.org.tkit.onecx.help.di.template.model</modelPackage>
+                            <modelNameSuffix>DTO</modelNameSuffix>
                             <generateApis>false</generateApis>
                         </configuration>
                     </execution>
