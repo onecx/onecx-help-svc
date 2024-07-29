@@ -246,6 +246,9 @@ components:
     Help:
       type: object
       properties:
+        operator:
+          type: boolean
+          default: false
         modificationCount:
           format: int32
           type: integer
