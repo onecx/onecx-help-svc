@@ -37,6 +37,7 @@ public interface HelpMapper {
 
     HelpDTO map(Help help);
 
+    @Mapping(target = "operator", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "creationUser", ignore = true)
