@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.tkit.onecx.help.domain.criteria.HelpCurrentSearchCriteria;
 import org.tkit.onecx.help.domain.criteria.HelpSearchCriteria;
 import org.tkit.onecx.help.domain.models.Help;
 import org.tkit.quarkus.jpa.daos.PageResult;
@@ -68,4 +69,5 @@ public interface HelpMapper {
         return productNamesDTO;
     }
 
+    HelpCurrentSearchCriteria map(HelpCurrentSearchCriteriaDTO helpCurrentSearchCriteriaDTO);
 }

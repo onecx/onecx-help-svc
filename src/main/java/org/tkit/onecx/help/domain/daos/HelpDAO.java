@@ -14,6 +14,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
+import org.tkit.onecx.help.domain.criteria.HelpCurrentSearchCriteria;
 import org.tkit.onecx.help.domain.criteria.HelpSearchCriteria;
 import org.tkit.onecx.help.domain.models.Help;
 import org.tkit.onecx.help.domain.models.Help_;
@@ -119,6 +120,35 @@ public class HelpDAO extends AbstractDAO<Help> {
             return this.getEntityManager().createQuery(cq).getResultStream();
         } catch (Exception ex) {
             throw new DAOException(ErrorKeys.ERROR_LOAD_ALL, ex);
+        }
+    }
+
+    public Help findCurrentHelpByCriteria(HelpCurrentSearchCriteria criteria) {
+        try {
+            var cb = this.getEntityManager().getCriteriaBuilder();
+            var cq = cb.createQuery(Help.class);
+            var root = cq.from(Help.class);
+
+            cq.where(cb.and(
+                    cb.equal(root.get(Help_.productName), criteria.getProductName()),
+                    cb.equal(root.get(Help_.itemId), criteria.getItemId())));
+            return this.getEntityManager().createQuery(cq).getSingleResult();
+        } catch (NoResultException ne) {
+            try {
+                var cb = this.getEntityManager().getCriteriaBuilder();
+                var cq = cb.createQuery(Help.class);
+                var root = cq.from(Help.class);
+
+                cq.where(cb.and(
+                        cb.equal(root.get(Help_.productName), criteria.getProductName()),
+                        cb.equal(root.get(Help_.itemId), "PRODUCT_BASE_DOC_URL")));
+                return this.getEntityManager().createQuery(cq).getSingleResult();
+
+            } catch (NoResultException noResultException) {
+                return null;
+            }
+        } catch (Exception ex) {
+            throw new DAOException(ErrorKeys.ERROR_GET_BY_PRODUCT_CRITERIA, ex);
         }
     }
 

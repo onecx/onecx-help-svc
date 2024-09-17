@@ -227,6 +227,57 @@ class HelpsRestControllerTest extends AbstractTest {
     }
 
     @Test
+    void searchCurrentHelpTest() {
+        var criteria = new HelpCurrentSearchCriteriaDTO();
+
+        criteria.setItemId("cg");
+        criteria.setProductName("productName1");
+
+        var data = given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .body(criteria)
+                .post("/current")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(HelpDTO.class);
+
+        assertThat(data).isNotNull();
+        assertThat(data.getItemId()).isEqualTo(criteria.getItemId());
+
+        criteria.setProductName("no-page-product");
+        criteria.setItemId("notExisting");
+
+        data = given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .body(criteria)
+                .post("/current")
+                .then()
+                .statusCode(OK.getStatusCode())
+                .contentType(APPLICATION_JSON)
+                .extract()
+                .as(HelpDTO.class);
+
+        assertThat(data).isNotNull();
+        assertThat(data.getItemId()).isEqualTo("PRODUCT_BASE_DOC_URL");
+
+        //no fallback exists:
+        criteria.setProductName("noExisting");
+        criteria.setItemId("notExisting");
+
+        given()
+                .contentType(APPLICATION_JSON)
+                .auth().oauth2(getKeycloakClientToken("testClient"))
+                .body(criteria)
+                .post("/current")
+                .then()
+                .statusCode(NOT_FOUND.getStatusCode());
+    }
+
+    @Test
     void updateHelpTest() {
 
         // update none existing help

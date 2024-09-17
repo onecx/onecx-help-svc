@@ -186,6 +186,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+  /internal/helps/current:
+    post:
+      security:
+        - oauth2: [ ocx-hp:all, ocx-hp:read ]
+      tags:
+        - helpsInternal
+      description: Search for helps
+      operationId: searchCurrentHelp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelpCurrentSearchCriteria'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelpPageResult'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   securitySchemes:
     oauth2:
@@ -223,6 +250,16 @@ components:
           default: 100
           maximum: 1000
           type: integer
+    HelpCurrentSearchCriteria:
+      type: object
+      required:
+        - itemId
+        - productName
+      properties:
+        itemId:
+          type: string
+        productName:
+          type: string
     HelpPageResult:
       type: object
       properties:

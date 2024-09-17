@@ -119,6 +119,16 @@ public class HelpsRestController implements HelpsInternalApi {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    @Override
+    public Response searchCurrentHelp(HelpCurrentSearchCriteriaDTO helpCurrentSearchCriteriaDTO) {
+        var criteria = mapper.map(helpCurrentSearchCriteriaDTO);
+        var result = dao.findCurrentHelpByCriteria(criteria);
+        if (result == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(mapper.map(result)).build();
+    }
+
     @ServerExceptionMapper
     public RestResponse<ProblemDetailResponseDTO> exception(ConstraintException ex) {
         return exceptionMapper.exception(ex);

@@ -40,6 +40,8 @@ class HelpDAOTest {
                 HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_NAME_AND_ITEM_ID);
         methodExceptionTests(() -> dao.findProductsWithHelpItems(),
                 HelpDAO.ErrorKeys.ERROR_FIND_PRODUCTS_WITH_HELP_ITEMS);
+        methodExceptionTests(() -> dao.findCurrentHelpByCriteria(null),
+                HelpDAO.ErrorKeys.ERROR_GET_BY_PRODUCT_CRITERIA);
     }
 
     void methodExceptionTests(Executable fn, Enum<?> key) {
