@@ -32,7 +32,7 @@ tkit.rs.context.tenant-id.enabled=true
 %prod.quarkus.datasource.jdbc.url=${DB_URL:jdbc:postgresql://postgresdb:5432/onecx-help?sslmode=disable}
 %prod.quarkus.datasource.username=${DB_USER:onecx-help}
 %prod.quarkus.datasource.password=${DB_PWD:onecx-help}
-quarkus.oidc-client.client-id=${quarkus.application.name}
+quarkus.oidc.client-id=${quarkus.application.name}
 %prod.quarkus.oidc-client.client-id=${quarkus.application.name}
 ----
 ====
@@ -72,6 +72,9 @@ app:
       spec:
         description: OneCX Help Backend Service
         name: OneCX Help SVC
+
+----
+
 
 ----
 
