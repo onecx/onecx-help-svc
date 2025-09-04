@@ -2,11 +2,13 @@
 openapi: 3.0.3
 info:
   title: onecx-help internal service
+  description: This API provides endpoints to manage Help items
   version: 1.0.0
 servers:
   - url: "http://onecx-help-svc:8080"
 tags:
   - name: helpsInternal
+    description: Managing Help items
 paths:
   /internal/helps/{productName}/{helpItemId}:
     get:
@@ -14,7 +16,7 @@ paths:
         - oauth2: [ ocx-hp:all, ocx-hp:read ]
       tags:
         - helpsInternal
-      description: search help item by product name and item id
+      description: Get help item by product name and item id
       operationId: getHelpByProductNameItemId
       parameters:
         - name: productName
@@ -31,20 +33,20 @@ paths:
             type: string
       responses:
         200:
-          description: OK
+          description: Help item retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Help'
         404:
-          description: Help not found
+          description: Help item not found
   /internal/helps:
     post:
       security:
         - oauth2: [ ocx-hp:all, ocx-hp:write ]
       tags:
         - helpsInternal
-      description: Create new help
+      description: Create a new help item
       operationId: createNewHelp
       requestBody:
         required: true
@@ -54,7 +56,7 @@ paths:
               $ref: '#/components/schemas/CreateHelp'
       responses:
         201:
-          description: New help created
+          description: Help item created successfully
           headers:
             Location:
               required: true
@@ -77,7 +79,7 @@ paths:
         - oauth2: [ ocx-hp:all, ocx-hp:read ]
       tags:
         - helpsInternal
-      description: Return help by ID
+      description: Get a help item by its id
       operationId: getHelpById
       parameters:
         - name: id
@@ -87,19 +89,19 @@ paths:
             type: string
       responses:
         200:
-          description: OK
+          description: Help item retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Help'
         "404":
-          description: Not found
+          description: Help item not found
     put:
       security:
         - oauth2: [ ocx-hp:all, ocx-hp:write ]
       tags:
         - helpsInternal
-      description: Update help by ID
+      description: Update a help item by its id
       operationId: updateHelp
       parameters:
         - name: id
@@ -115,7 +117,7 @@ paths:
               $ref: '#/components/schemas/UpdateHelp'
       responses:
         204:
-          description: Help updated
+          description: Help item updated successfully
           content:
             application/json:
               schema:
@@ -127,13 +129,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
         404:
-          description: Help not found
+          description: Help item not found
     delete:
       security:
         - oauth2: [ ocx-hp:all, ocx-hp:delete ]
       tags:
         - helpsInternal
-      description: Delete help by ID
+      description: Delete a help item by its id
       operationId: deleteHelp
       parameters:
         - name: id
@@ -143,18 +145,18 @@ paths:
             type: string
       responses:
         204:
-          description: Help deleted
+          description: Help item deleted successfully
   /internal/helps/productNames:
     get:
       security:
         - oauth2: [ ocx-hp:all, ocx-hp:read]
       tags:
         - helpsInternal
-      summary: Get all product names to which help items are assigned
+      description: Get all product names to which help items are assigned
       operationId: getAllProductsWithHelpItems
       responses:
         "200":
-          description: OK
+          description: Product names retrieved successfully
           content:
             application/json:
               schema:
@@ -165,7 +167,7 @@ paths:
         - oauth2: [ ocx-hp:all, ocx-hp:read ]
       tags:
         - helpsInternal
-      description: Search for helps
+      description: Search for helps items by search criteria
       operationId: searchHelps
       requestBody:
         required: true
@@ -175,7 +177,7 @@ paths:
               $ref: '#/components/schemas/HelpSearchCriteria'
       responses:
         200:
-          description: OK
+          description: Help item search results retrieved successfully
           content:
             application/json:
               schema:

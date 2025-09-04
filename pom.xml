@@ -167,7 +167,7 @@
                         <configuration>
                             <skipDocs>${skipDocs}</skipDocs>
                             <openApiFiles>
-                                <openApiFile>onecx-help-v1-openapi.yaml</openApiFile>
+                                <openApiFile>onecx-help-v1.yaml</openApiFile>
                                 <openApiFile>di-help-v1.yaml</openApiFile>
                             </openApiFiles>
                         </configuration>
@@ -210,7 +210,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/openapi/onecx-help-internal-openapi.yaml</inputSpec>
+                            <inputSpec>src/main/openapi/onecx-help-internal.yaml</inputSpec>
                             <apiPackage>gen.org.tkit.onecx.help.rs.internal</apiPackage>
                             <modelPackage>gen.org.tkit.onecx.help.rs.internal.model</modelPackage>
                             <modelNameSuffix>DTO</modelNameSuffix>
@@ -235,7 +235,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>src/main/openapi/onecx-help-exim-v1-openapi.yaml</inputSpec>
+                            <inputSpec>src/main/openapi/onecx-help-exim-v1.yaml</inputSpec>
                             <apiPackage>gen.org.tkit.onecx.help.rs.exim.v1</apiPackage>
                             <modelPackage>gen.org.tkit.onecx.help.rs.exim.v1.model</modelPackage>
                             <modelNameSuffix>DTOV1</modelNameSuffix>
