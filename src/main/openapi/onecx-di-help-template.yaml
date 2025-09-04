@@ -1,7 +1,8 @@
 ---
 openapi: 3.0.3
 info:
-  title: onecx-help helps template import from file during the start of the application
+  title: onecx-help data import service
+  description: template import from file during the start of the application
   version: 1.0.0
 servers:
   - url: "http://localhost"
@@ -9,6 +10,7 @@ paths:
   /import/help:
     post:
       operationId: importHelp
+      description: Import help from template
       requestBody:
         content:
           application/json:
@@ -16,7 +18,7 @@ paths:
               $ref: '#/components/schemas/TemplateImport'
       responses:
         200:
-          description: ok
+          description: Help imported successfully
 components:
   schemas:
     TemplateImport:

@@ -1,12 +1,14 @@
 ---
 openapi: 3.0.3
 info:
-  title: onecx-help exim service
+  title: onecx-help exim service V1
+  description: This API provides endpoints to export and import Help items
   version: 1.0.0
 servers:
   - url: "http://onecx-help:8080"
 tags:
   - name: helpExportImport
+    description: Managing Help items
 paths:
   /exim/v1/help/export:
     post:
@@ -14,7 +16,7 @@ paths:
         - oauth2: [ ocx-hp:all, ocx-hp:read ]
       tags:
         - helpExportImport
-      description: Export helps by products
+      description: Export help items for specific products
       operationId: exportHelpsByProducts
       requestBody:
         required: true
@@ -24,20 +26,20 @@ paths:
               $ref: '#/components/schemas/ExportHelpsRequest'
       responses:
         "200":
-          description: OK
+          description: Help items exported successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HelpSnapshot'
         "404":
-          description: No helps found
+          description: Help items not found
   /exim/v1/help/import:
     post:
       security:
         - oauth2: [ ocx-hp:all, ocx-hp:write ]
       tags:
         - helpExportImport
-      description: Import helps
+      description: Import help items
       operationId: importHelps
       requestBody:
         required: true
@@ -47,7 +49,7 @@ paths:
               $ref: '#/components/schemas/HelpSnapshot'
       responses:
         "200":
-          description: Import result
+          description: Help items imported successfully
         "400":
           description: Bad request
           content:
@@ -60,7 +62,7 @@ paths:
         - oauth2: [ ocx-hp:all, ocx-hp:write ]
       tags:
         - helpExportImport
-      description: Import helps
+      description: Import help items by the operator only
       operationId: importOperatorHelps
       requestBody:
         required: true
@@ -70,7 +72,7 @@ paths:
               $ref: '#/components/schemas/HelpSnapshot'
       responses:
         "200":
-          description: Import successfully workspaces
+          description: Help items imported successfully
         "400":
           description: Bad request
           content:
