@@ -46,7 +46,6 @@ public class HelpsRestController implements HelpsInternalApi {
     HelpConfig config;
 
     @Override
-    @Transactional
     public Response createNewHelp(CreateHelpDTO createHelpDTO) {
         var help = mapper.create(createHelpDTO);
         help = dao.create(help);
@@ -57,7 +56,6 @@ public class HelpsRestController implements HelpsInternalApi {
     }
 
     @Override
-    @Transactional
     public Response deleteHelp(String id) {
         dao.deleteQueryById(id);
         return Response.noContent().build();
@@ -87,7 +85,6 @@ public class HelpsRestController implements HelpsInternalApi {
     }
 
     @Override
-    @Transactional
     public Response updateHelp(String id, UpdateHelpDTO updateHelpDTO) {
 
         var help = dao.findById(id);
