@@ -15,4 +15,3 @@ jobs:
     secrets: inherit
     with:
       native: true
-      nativeMulti: true

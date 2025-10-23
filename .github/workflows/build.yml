@@ -14,5 +14,4 @@ jobs:
     secrets: inherit
     with:
       native: true
-      nativeMulti: true
       helmEventTargetRepository: onecx/onecx-help
