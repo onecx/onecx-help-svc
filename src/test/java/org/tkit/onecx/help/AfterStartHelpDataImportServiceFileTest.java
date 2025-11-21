@@ -21,7 +21,7 @@ class AfterStartHelpDataImportServiceFileTest extends AbstractTest {
     @Test
     @DisplayName("Import help data from file")
     void importDataFromFileTest() {
-        var data = dao.findAll().toList();
+        var data = dao.findAllAsList();
         assertThat(data).isNotNull().hasSize(4);
     }
 

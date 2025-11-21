@@ -49,7 +49,7 @@ class HelpTemplateImportServiceTest extends AbstractTest {
 
         service.importData(config);
 
-        List<Help> data = dao.findAll().toList();
+        List<Help> data = dao.findAllAsList();
         assertThat(data).isNotNull().hasSize(4);
 
     }
@@ -154,7 +154,7 @@ class HelpTemplateImportServiceTest extends AbstractTest {
 
         service.importData(config);
 
-        List<Help> data = dao.findAll().toList();
+        List<Help> data = dao.findAllAsList();
         assertThat(data).isNotNull().hasSize(5);
 
     }
