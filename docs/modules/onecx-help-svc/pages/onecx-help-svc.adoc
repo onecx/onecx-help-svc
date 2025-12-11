@@ -26,7 +26,7 @@ Environment variable: `+++ONECX_HELP_DEFAULT_ENABLED+++`
 endif::add-copy-button-to-env-var[]
 --
 |boolean
-|`false`
+|`+++false+++`
 
 a| [[onecx-help-svc_onecx-help-default-url]] [.property-path]##link:#onecx-help-svc_onecx-help-default-url[`onecx.help.default.url`]##
 ifdef::add-copy-button-to-config-props[]
@@ -47,7 +47,7 @@ Environment variable: `+++ONECX_HELP_DEFAULT_URL+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`https://github.com/onecx`
+|`+++https://github.com/onecx+++`
 
 a| [[onecx-help-svc_onecx-help-product-item-id]] [.property-path]##link:#onecx-help-svc_onecx-help-product-item-id[`onecx.help.product-item-id`]##
 ifdef::add-copy-button-to-config-props[]
@@ -68,7 +68,7 @@ Environment variable: `+++ONECX_HELP_PRODUCT_ITEM_ID+++`
 endif::add-copy-button-to-env-var[]
 --
 |string
-|`PRODUCT_BASE_DOC_URL`
+|`+++PRODUCT_BASE_DOC_URL+++`
 
 |===
 

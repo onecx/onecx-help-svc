@@ -166,10 +166,6 @@
                         </goals>
                         <configuration>
                             <skipDocs>${skipDocs}</skipDocs>
-                            <openApiFiles>
-                                <openApiFile>onecx-help-v1.yaml</openApiFile>
-                                <openApiFile>di-help-v1.yaml</openApiFile>
-                            </openApiFiles>
                         </configuration>
                     </execution>
                 </executions>
