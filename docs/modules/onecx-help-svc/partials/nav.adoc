@@ -1,4 +1,1 @@
 ** xref:documentation:onecx-help-svc:index.adoc[Backend Service]
-*** External API(s)
-**** xref:documentation:onecx-help-svc:openapi/onecx-help-v1-openapi.adoc[Help Management V1]
-**** xref:documentation:onecx-help-svc:openapi/di-help-v1.adoc[Help Data Import V1]
