@@ -29,50 +29,50 @@ h| Version
 | tkit-quarkus-rest-context
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-rest-context.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-rest-context.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-rest-context.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-jpa-tenant
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-jpa-tenant.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-jpa-tenant.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-jpa-tenant.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-data-import
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-data-import.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-data-import.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-data-import.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-jpa
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-jpa.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-jpa.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-jpa.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-log-cdi
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-log-cdi.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-cdi.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-cdi.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-log-rs
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-log-rs.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-rs.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-rs.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-log-json
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-log-json.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-json.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-log-json.adoc[Link]
+| 4.6.0
 
 | tkit-quarkus-rest
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-rest.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-rest.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-rest.adoc[Link]
+| 4.6.0
 
 | quarkus-arc
 
@@ -143,8 +143,8 @@ h| Version
 | tkit-quarkus-security
 
 | https://1000kit.github.io/tkit-quarkus/current/tkit-quarkus/tkit-quarkus-security.html[Link]
-| https://github.com/1000kit/tkit-quarkus/blob/4.4.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-security.adoc[Link]
-| 4.4.0
+| https://github.com/1000kit/tkit-quarkus/blob/4.6.0/docs/modules/tkit-quarkus/pages/includes/tkit-quarkus-security.adoc[Link]
+| 4.6.0
 
 | quarkus-container-image-docker
 
@@ -158,26 +158,6 @@ h| Version
 | 
 | 
 | 3.27.1
-
-
-|===ion
-
-| 
-| 
-| 3.20.2.1
-
-
-|===tion
-
-| 
-| 
-| 3.15.3
-
-| tkit-quarkus-oidc-health
-
-| 
-| 
-| 2.40.0
 
 
 |===

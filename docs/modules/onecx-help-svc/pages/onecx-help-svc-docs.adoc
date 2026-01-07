@@ -74,9 +74,3 @@ app:
 
 ----
 
-   spec:
-        description: OneCX Help Backend Service
-        name: OneCX Help SVC
-
-----
-
