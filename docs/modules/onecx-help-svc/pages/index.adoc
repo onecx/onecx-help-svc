@@ -1,10 +1,9 @@
 include::onecx-help-svc-attributes.adoc[opts=optional]
 
-== onecx-help-svc
+= OneCX Help Backend Service
 
-include::docs.adoc[opts=optional]
 
-=== Configuration
+== Configuration
 include::onecx-help-svc.adoc[opts=optional]
 
 include::onecx-help-svc-docs.adoc[opts=optional]

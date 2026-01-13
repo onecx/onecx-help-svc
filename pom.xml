@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>onecx-help-svc</artifactId>
+    <name>OneCX Help Backend Service</name>
     <version>999-SNAPSHOT</version>
 
     <dependencies>
