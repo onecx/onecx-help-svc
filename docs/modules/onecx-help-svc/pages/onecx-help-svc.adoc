@@ -7,7 +7,7 @@ h|[.header-title]##Configuration property##
 h|Type
 h|Default
 
-a| [[onecx-help-svc_onecx-help-default-enabled]] [.property-path]##link:#onecx-help-svc_onecx-help-default-enabled[`onecx.help.default.enabled`]##
+a| [[onecx-help-svc_onecx-help-default-enabled]] [.property-path]##link:#onecx-help-svc_onecx-help-default-enabled[`+++onecx.help.default.enabled+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++onecx.help.default.enabled+++[]
 endif::add-copy-button-to-config-props[]
@@ -28,7 +28,7 @@ endif::add-copy-button-to-env-var[]
 |boolean
 |`+++false+++`
 
-a| [[onecx-help-svc_onecx-help-default-url]] [.property-path]##link:#onecx-help-svc_onecx-help-default-url[`onecx.help.default.url`]##
+a| [[onecx-help-svc_onecx-help-default-url]] [.property-path]##link:#onecx-help-svc_onecx-help-default-url[`+++onecx.help.default.url+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++onecx.help.default.url+++[]
 endif::add-copy-button-to-config-props[]
@@ -49,7 +49,7 @@ endif::add-copy-button-to-env-var[]
 |string
 |`+++https://github.com/onecx+++`
 
-a| [[onecx-help-svc_onecx-help-product-item-id]] [.property-path]##link:#onecx-help-svc_onecx-help-product-item-id[`onecx.help.product-item-id`]##
+a| [[onecx-help-svc_onecx-help-product-item-id]] [.property-path]##link:#onecx-help-svc_onecx-help-product-item-id[`+++onecx.help.product-item-id+++`]##
 ifdef::add-copy-button-to-config-props[]
 config_property_copy_button:+++onecx.help.product-item-id+++[]
 endif::add-copy-button-to-config-props[]
