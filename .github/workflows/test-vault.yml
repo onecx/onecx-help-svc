@@ -15,7 +15,7 @@ jobs:
       - name: Load secrets from Vault
         uses: hashicorp/vault-action@v3
         with:
-          url: https://vault.dev.company.com
+          url: https://vault.dev.one-cx.org
           method: jwt
           role: github-onecx-role
           jwtGithubAudience: https://github.com
