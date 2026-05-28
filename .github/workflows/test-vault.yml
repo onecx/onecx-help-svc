@@ -1,0 +1,29 @@
+name: Test Vault
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Load secrets from Vault
+        uses: hashicorp/vault-action@v3
+        with:
+          url: https://vault.dev.company.com
+          method: jwt
+          role: github-onecx-role
+          jwtGithubAudience: https://github.com
+          secrets: |
+            secret/data/shared/tokens github_token GITHUB_TOKEN ;
+            secret/data/shared/tokens copilot_token COPILOT_TOKEN
+
+      - name: Verify masking
+        run: |
+          echo "GitHub Token: $GITHUB_TOKEN"
+          echo "Copilot Token: $COPILOT_TOKEN"
