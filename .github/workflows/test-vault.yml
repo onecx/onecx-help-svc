@@ -20,8 +20,8 @@ jobs:
           role: github-onecx-role
           jwtGithubAudience: https://github.com
           secrets: |
-            secret/data/shared/tokens github_token GITHUB_TOKEN ;
-            secret/data/shared/tokens copilot_token COPILOT_TOKEN
+            secret/data/shared/tokens github_token | GITHUB_TOKEN ;
+            secret/data/shared/tokens copilot_token | COPILOT_TOKEN
 
       - name: Verify masking
         run: |
