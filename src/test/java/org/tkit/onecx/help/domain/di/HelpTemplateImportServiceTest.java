@@ -23,7 +23,7 @@ import gen.org.tkit.onecx.help.di.template.model.TemplateImportDTO;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
-@WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, deleteAfterTest = true, rinseAndRepeat = true)
+@WithDBData(value = "data/test-internal.xml", deleteBeforeInsert = true, rinseAndRepeat = true)
 class HelpTemplateImportServiceTest extends AbstractTest {
 
     @Inject
